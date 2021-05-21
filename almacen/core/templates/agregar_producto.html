@@ -27,14 +27,13 @@
         </div>
 
 <div>
-<H1>Gestion Productos</H1>
+<h1>Agreguemos un nuevo producto</h1>
+<form action="" method="POST">
+    {% csrf_token %}
 
-<h2>productos</h2>
-    <table>
-        <tr>
-            <th>id producto</th>
+    <th>id producto</th>
             <br>
-            <th>Grupo producto</th>
+            <label for="">Grupo producto</label>  
             <br>
             <th>vencimiento</th>
             <br>
@@ -52,27 +51,13 @@
             <br>
             <th>Stock critico</th>
             <br>
-        </tr>
-        {% for p in productos %}
-        <tr>
-            <td>{{ p.0 }}</td>
-            <td>{{ p.1 }}</td>
-            <td>{{ p.2 }}</td>
-            <td>{{ p.3 }}</td>
-            <td>{{ p.4 }}</td>
-            <td>{{ p.5 }}</td>
-            <td>{{ p.6 }}</td>
-            <td>{{ p.7 }}</td>
-            <td>{{ p.8 }}</td>
-            <td>{{ p.9 }}</td>
-        </tr>
-    
-    
-        {% endfor %}
-    
-    </table>
 
-</div>
+
+
+</form>
+
+
+
 
 
     
