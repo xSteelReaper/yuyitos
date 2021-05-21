@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Gestion de Empleados</h1>
+
+    <h2>Empleados</h2>
+    <table>
+        <tr>
+            <th>Rut</th>
+            <th>Nombre</th>
+        </tr>
+        {% for e in empleados %}
+            
+            <tr>
+                <td>{{ e.1 }}</td>
+                <td>{{ e.2 }}</td>
+            </tr>            
+            
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>

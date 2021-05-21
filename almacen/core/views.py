@@ -45,3 +45,21 @@ def agregar_productos():
     
     return lista  
 
+def empleados (request):
+    data = {
+        'empleados':listado_empleados()
+    }
+    return render(request, 'empleados.html',data)
+
+def listado_empleados():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    
+    cursor.callproc("SP_LISTAR_EMPLEADOS", [out_cur])
+    
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+        
+    return lista
