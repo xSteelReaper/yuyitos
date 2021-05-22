@@ -10,7 +10,7 @@ class Empleado (models.Model):
     telefono_empleado = models.CharField(max_length=20)
     nombre_usuario = models.CharField(max_length=50)
     contraseña_empleado = models.CharField(max_length=50)
-    cargo_empleado = models.BooleanField('Enabled', default=True)
+    cargo_empleado = models.CharField(max_length=100)
     
     def __str__(self):
         return self.nombre_empleado
