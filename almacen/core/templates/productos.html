@@ -10,76 +10,51 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"id="bootstrap-css"
     />
     <!--Css-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css%22%3E">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/estilo_producto.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <title>Document</title>
+
+
+    <div class="topnav">
+        <a class="active" href="#home">Iniciar</a>
+        <a href="perfil.html" >Proveedor</a>
+        <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
+        <a href="perfil.html" style="color:white">Venta</a>
+        <a href="perfil.html" style="color:white">PagarFiado</a>
+        <a href="perfil.html" style="color:white">Pedidos</a>
+        <a href="perfil.html" style="color:white">Empleado</a>
+        <a href="perfil.html" style="color:white">Perfil</a> 
+    </div> 
 </head>
 <body>
-<div class="topnav">
-            <a class="active" href="#home">Iniciar</a>
-            <a href="perfil.html" >Proveedor</a>
-            <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
-            <a href="perfil.html" style="color:white">Venta</a>
-            <a href="perfil.html" style="color:white">PagarFiado</a>
-            <a href="perfil.html" style="color:white">Pedidos</a>
-            <a href="perfil.html" style="color:white">Empleado</a>
-            <a href="perfil.html" style="color:white">Perfil</a> 
+
+    <div class="grid-container">
+        <div class="grid-item">id producto</div>
+        <div class="grid-item">Grupo Producto</div>
+        <div class="grid-item">vencimiento</div>
+        <div class="grid-item">Tipo producto</div>
+        <div class="grid-item">descripcion</div>
+        <div class="grid-item">Precio</div>
+        <div class="grid-item">Nombre Producto</div>
+        <div class="grid-item">Marca producto</div>
+        <div class="grid-item">Cantidad</div>
+        <div class="grid-item">Stock critico</div>
+        {% for p in productos %}
+        <!--Aqui van las cajas de texto segun el orden de arriba -->
+        <div class="grid-item">{{ p.0 }}</div>
+        <div class="grid-item">{{ p.1 }}</div>
+        <div class="grid-item">{{ p.2 }}</div>
+        <div class="grid-item">{{ p.3 }}</div>
+        <div class="grid-item">{{ p.4 }}</div>
+        <div class="grid-item">{{ p.5 }}</div>
+        <div class="grid-item">{{ p.6 }}</div>
+        <div class="grid-item">{{ p.7 }}</div>
+        <div class="grid-item">{{ p.8 }}</div>
+        <div class="grid-item">{{ p.9 }}</div>
+        {% endfor %}
+        
         </div>
 
-<div id="formulario">
-    
-</div>
-<H1>Gestion Productos</H1>
-<h2>productos</h2>
-    <table>
-        <tr>
-            <th>id producto</th>
-            <br>
-            <th>Grupo producto</th>
-            <br>
-            <th>vencimiento</th>
-            <br>
-            <th>Tipo producto</th>
-            <br>
-            <th>descripcion</th>
-            <br>
-            <th>Precio</th>
-            <br>
-            <th>Nombre Producto</th>
-            <br>
-            <th>Marca producto</th>
-            <br>
-            <th>Cantidad</th>
-            <br>
-            <th>Stock critico</th>
-            <br>
-        </tr>
-        <br>
-        {% for p in productos %}
-        <tr>
-            <td>{{ p.0 }}</td>
-            <td>{{ p.1 }}</td>
-            <td>{{ p.2 }}</td>
-            <td>{{ p.3 }}</td>
-            <td>{{ p.4 }}</td>
-            <td>{{ p.5 }}</td>
-            <td>{{ p.6 }}</td>
-            <td>{{ p.7 }}</td>
-            <td>{{ p.8 }}</td>
-            <td>{{ p.9 }}</td>
-        </tr>
-    
-    
-        {% endfor %}
-    
-    </table>
-
-
-    
-
-
-
-
-    
 </body>
 </html>
