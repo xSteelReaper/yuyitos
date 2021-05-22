@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Empleados</title>
+</head>
+<body>
+    <h1>Ingreso de Empleados</h1>
+    <h2>Nuevo Empleado</h2>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <label for="rut_empleado">Rut</label>
+        <input type="text" name="rut_empleado" id="rut_empleado">
+        <br>
+        <label for="nombre_empleado">Nombre</label>
+        <input type="text" name="nombre_empleado" id="nombre_empleado">
+        <br>
+        <label for="direccion_empleado">Direccion</label>
+        <input type="text" name="direccion_empleado" id="direccion_empleado">
+        <br>
+        <label for="telefono_empleado">Telefono</label>
+        <input type="text" name="telefono_empleado" id="telefono_empleado">
+        <br>
+        <label for="nombre_usuario">Nombre Usuario</label>
+        <input type="text" name="nombre_usuario" id="nombre_usuario">
+        <br>
+        <label for="contraseña_empleado">Contraseña</label>
+        <input type="password" name="contraseña_empleado" id="contraseña_empleado">
+        <br>
+        <label for="cargo_empleado">Cargo Empleado</label>
+        <input type="text" name="cargo_empleado" id="cargo_empleado">
+        <br>
+        <input type="submit" value="Guardar">
+
+    </form>
+
+    {{mensaje}}
+
+
+
+
+</body>
+</html>
