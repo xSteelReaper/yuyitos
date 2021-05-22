@@ -5,7 +5,7 @@ from .models import *
 
 admin.site.register(Producto)
 admin.site.register(Empleado)
-#admin.site.register()
+admin.site.register(Proveedor)
 #admin.site.register()
 #admin.site.register()
 #admin.site.register()
