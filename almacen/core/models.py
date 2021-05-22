@@ -42,6 +42,8 @@ class Proveedor (models.Model):
     nombre_empresa = models.CharField(max_length=100)
     nombre_proveedor = models.CharField(max_length=100)
     telefono_proveedor = models.CharField(max_length=20)
+    def __str__(self):
+        return self.nombre_proveedor
 
 
 class Orden_Pedido (models.Model):

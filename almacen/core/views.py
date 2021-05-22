@@ -112,3 +112,47 @@ def agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO
     cursor.callproc('SP_AGREGAR_EMPLEADOS',[RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
                         NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO, salida])
     return salida.getvalue()
+
+#  LO HIZO SALOMOON
+def proveedores (request):
+    
+    #print(listado_proveedores())
+    data = {
+        'proveedores':listado_proveedores()
+    }
+    
+    #agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
+    
+    if request.method == 'POST':
+        rubro_empresa = request.POST.get('Rubro Empresa')
+        nombre_empresa = request.POST.get('Nombre Empresa')
+        nombre_proveedor = request.POST.get('Nombre Proveedor')
+        telefono_proveedor = request.POST.get('Telefono Proveedor')
+        salida = agregar_proveedor(rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor)
+        if salida == 1:
+            data['mensaje'] = 'Agregado Correctamente'
+            data['productos'] = listado_proveedores()
+        else:
+            data['mensaje'] = 'No se ha podido guardar'   
+    
+    return render(request, 'listar_proveedores.html',data)
+
+def listado_proveedores():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    
+    cursor.callproc("SP_LISTAR_PROVEEDORES", [out_cur])
+    
+    lista = [] 
+    for fila in out_cur:
+        lista.append(fila)
+        
+    return lista 
+
+def agregar_proveedor(rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.number)
+    cursor.callproc('SP_AGREGAR_PROVEEDOR',[rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor,salida])
+    return salida.getvalue()

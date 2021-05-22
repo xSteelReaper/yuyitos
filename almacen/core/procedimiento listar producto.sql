@@ -24,4 +24,32 @@ begin
 
 end;
 
+create or replace procedure sp_listar_proveedores(proveedores out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    OPEN proveedores for select * from core_proveedor;
+END;
+
+create or replace procedure sp_agregar_proveedor(
+    v_rubroEmpresa varchar2,
+    v_nombreEmpresa varchar2,
+    v_nombreProveedor varchar2,
+    v_telefonoProveedor varchar2,
+    v_salida out number
+)
+IS
+BEGIN
+    insert into core_proveedor(rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor)
+    values(v_rubroEmpresa, v_nombreEmpresa, v_nombreProveedor, v_telefonoProveedor);
+    COMMIT;
+    v_salida:=1;
+
+    exception
+
+    when others then
+        v_salida:= 0; 
+END;
+
 
