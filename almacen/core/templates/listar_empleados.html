@@ -1,33 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static  %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    
+    
     <title>Listar Empleados</title>
 </head>
 <body>
-    
+    <nav class="nav-wrapper sticky-top">
+        <div class="container">
+            
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="{% url 'listar_proveedores' %}">Proveedor</a></li>
+                <li><a href="#home">Stock</a></li>
+                <li><a href="#home">Venta</a></li>
+                <li><a href="#home">PagarFiado</a></li>
+                <li><a href="#home">Pedidos</a></li>
+                <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                <li><a href="#home">Perfil</a></li>
+                
+            </ul>
+        </div>
+    </nav>
     
 
-    <h1>Gestion de Empleados</h1>
-
-    <h2>Empleados</h2>
-    <table>
+    <h2>Listado de Empleados</h2>
+    <table class="table">
+  <thead class="thead-dark">
         <tr>
             <th>Rut</th>
             <th>Nombre</th>
+            <th>Direccion</th>
+            <th>Telefono</th>
+            <th>Nombre Usuario</th>
+            <th>Cargo</th>
         </tr>
+        </thead>
         {% for e in empleados %}
             
             <tr>
                 <td>{{ e.1 }}</td>
                 <td>{{ e.2 }}</td>
+                <td>{{ e.3 }}</td>
+                <td>{{ e.4 }}</td>
+                <td>{{ e.5 }}</td>
+                <td>{{ e.7 }}</td>
             </tr>            
             
         {% endfor %}
 
     </table>
+
+
 
 </body>
 </html>
