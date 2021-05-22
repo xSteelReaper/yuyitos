@@ -18,7 +18,7 @@
 <div class="topnav">
             <a class="active" href="#home">Iniciar</a>
             <a href="perfil.html" >Proveedor</a>
-            <a href="/paginas/listarProducto.html" style="">Stock</a>
+            <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
             <a href="perfil.html" style="color:white">Venta</a>
             <a href="perfil.html" style="color:white">PagarFiado</a>
             <a href="perfil.html" style="color:white">Pedidos</a>
@@ -26,9 +26,10 @@
             <a href="perfil.html" style="color:white">Perfil</a> 
         </div>
 
-<div>
+<div id="formulario">
+    
+</div>
 <H1>Gestion Productos</H1>
-
 <h2>productos</h2>
     <table>
         <tr>
@@ -53,6 +54,7 @@
             <th>Stock critico</th>
             <br>
         </tr>
+        <br>
         {% for p in productos %}
         <tr>
             <td>{{ p.0 }}</td>
@@ -72,7 +74,10 @@
     
     </table>
 
-</div>
+
+    
+
+
 
 
     

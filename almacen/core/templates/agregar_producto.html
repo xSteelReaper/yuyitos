@@ -18,7 +18,7 @@
 <div class="topnav">
             <a class="active" href="#home">Iniciar</a>
             <a href="perfil.html" >Proveedor</a>
-            <a href="/paginas/listarProducto.html" style="">Stock</a>
+            <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
             <a href="perfil.html" style="color:white">Venta</a>
             <a href="perfil.html" style="color:white">PagarFiado</a>
             <a href="perfil.html" style="color:white">Pedidos</a>
@@ -29,37 +29,46 @@
 <div>
 <h1>Agreguemos un nuevo producto</h1>
 <form action="" method="POST">
-    {% csrf_token %}
+   {% csrf_token %}
 
-    <th>id producto</th>
-            <br>
-            <label for="">Grupo producto</label>  
-            <br>
-            <th>vencimiento</th>
-            <br>
-            <th>Tipo producto</th>
-            <br>
-            <th>descripcion</th>
-            <br>
-            <th>Precio</th>
-            <br>
-            <th>Nombre Producto</th>
-            <br>
-            <th>Marca producto</th>
-            <br>
-            <th>Cantidad</th>
-            <br>
-            <th>Stock critico</th>
-            <br>
+    <label for="familia_producto">FAMILIA_PRODUCTO</label>
+    <input type="text" name="familia_producto" id="familia_producto">
+    <br>
 
+    <label for="fecha_vencimiento">FECHA_VENCIMIENTO</label>
+    <input type="date" name="fecha_vencimiento" id="fecha_vencimiento">
+    <br>
 
+    <label for="tipo_producto">TIPO_PRODUCTO</label>
+    <input type="text" name="tipo_producto" id="tipo_producto">
+    <br>
+
+    <label for="descripcion">DESCRIPCION</label>
+    <input type="text" name="descripcion" id="descripcion">
+    <br>
+
+    <label for="precio">PRECIO</label>
+    <input type="number" name="precio" id="precio">
+    <br>
+
+    <label for="nombre_producto">NOMBRE_PRODUCTO</label>
+    <input type="text" name="nombre_producto" id="nombre_producto">
+    <br>
+
+    <label for="marca_producto">MARCA_PRODUCTO</label>
+    <input type="text" name="marca_producto" id="marca_producto">
+    <br>
+
+    <label for="stock">CANTIDAD</label>
+    <input type="number" name="stock" id="stock">
+    <br>
+
+    <label for="stock_critico">STOCK_CRITICO</label>
+    <input type="number" name="stock_critico" id="stock_critico">
+    <br>
+
+    <input type="submit" value="Guardar">
 
 </form>
-
-
-
-
-
-    
 </body>
 </html>
