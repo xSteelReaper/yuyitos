@@ -8,7 +8,7 @@ def productos(request):
     data={
         'productos': lista_productos(),
     }
-    return render(request,'productos.html',data)
+    return render(request,'listar_productos.html',data)
 
 def lista_productos():
     django_cursor = connection.cursor()
