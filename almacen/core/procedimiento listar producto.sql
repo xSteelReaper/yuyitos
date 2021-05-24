@@ -53,3 +53,45 @@ BEGIN
 END;
 
 
+--------procedimientos empleado-------------
+
+CREATE OR REPLACE procedure sp_listar_empleados(empleados out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    open empleados for SELECT * from core_empleado;
+
+END;
+
+CREATE OR REPLACE procedure sp_agregar_empleados(
+ v_RUT_EMPLEADO NVARCHAR2,
+ v_NOMBRE_EMPLEADO NVARCHAR2,
+ v_DIRECCION_EMPLEADO NVARCHAR2,
+ v_TELEFONO_EMPLEADO NVARCHAR2,
+ v_NOMBRE_USUARIO NVARCHAR2,
+ v_CONTRASEÑA_EMPLEADO NVARCHAR2,
+ v_CARGO_EMPLEADO number,
+ v_salida out number
+
+
+)
+IS
+
+BEGIN
+    insert into CORE_EMPLEADO (RUT_EMPLEADO, NOMBRE_EMPLEADO,
+                DIRECCION_EMPLEADO, TELEFONO_EMPLEADO, NOMBRE_USUARIO,
+                CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+    values (v_RUT_EMPLEADO, v_NOMBRE_EMPLEADO, v_DIRECCION_EMPLEADO,
+            v_TELEFONO_EMPLEADO, v_NOMBRE_USUARIO, v_CONTRASEÑA_EMPLEADO,
+            v_CARGO_EMPLEADO);
+    commit;
+    v_salida:=1;
+    
+    
+    exception
+    
+    when others then
+        v_salida:=0;
+    
+END;
