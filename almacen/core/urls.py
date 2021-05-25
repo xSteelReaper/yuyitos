@@ -6,5 +6,6 @@ urlpatterns = [
     path('agregarProducto',agregarProducto, name ='agregar_producto'),       
     path('empleado', empleados, name = 'listar_empleados'),
     path('agregarEmpleado', agregarempleados, name= 'agregar_empleados'),
-    path('listarProveedores', proveedores, name= 'listar_proveedores')
+    path('listarProveedores', proveedores, name= 'listar_proveedores'),
+    path('agregarProveedores', agregarproveedores, name = 'agregar_proveedores')
 ]

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    
-    <title>Gestión de Proveedores</title>
+    <link rel="stylesheet" href="css/agregar_proveedores.css">
+    <title>Agregar Proveedores</title>
 </head>
 <body>
-    
+
     <header class="header">
         <div class="container logo-nav-container">
             <a href="#" class="logo">YUYITOS</a>
@@ -30,30 +30,32 @@
             </nav>
         </div>
     </header>
-
     <br>
-    <main class = "main">
-        <h2>Listado de Proveedores</h2>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID de Proveedor</th>
-                    <th>Rubro Empresa</th>
-                    <th>Nombre Empresa</th>
-                    <th>Nombre Proveedor</th>
-                    <th>Telefono Proveedor</th>
-                </tr>
-            </thead>            
-            {% for p in proveedores %}
-            <tr>
-                <td>{{ p.0 }}</td>
-                <td>{{ p.1 }}</td>
-                <td>{{ p.2 }}</td>
-                <td>{{ p.3 }}</td>
-                <td>{{ p.4 }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </main>     
+
+    <div class = "container" id = "contenedor_general">
+        <main class = "main">
+            <h1>Ingreso de Proveedores</h1>
+            <h2>Nuevo Proveedor</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+        
+                <label for="">Rubro Empresa</label>
+                <input type="text" name="Rubro Empresa">
+                <br>
+                <label for="">Nombre Empresa</label>
+                <input type="text" name="Nombre Empresa">
+                <br>
+                <label for="">Nombre Proveedor</label>
+                <input type="text" name="Nombre Proveedor">
+                <br>
+                <label for="">Telefono Proveedor</label>
+                <input type="text" name="Telefono Proveedor">
+                <br>
+                <input type="submit" value="Guardar">
+            </form>
+        
+            {{mensaje}}
+        </main>
+    </div>
 </body>
 </html>
