@@ -156,3 +156,28 @@ def agregar_proveedor(rubro_empresa,nombre_empresa,nombre_proveedor,telefono_pro
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_PROVEEDOR',[rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor,salida])
     return salida.getvalue()
+
+
+# CRUD ORDEN DE PEDIDO
+# Esto lo hizo Daniel
+
+def ordenes(request):
+    data = {
+        'ordenes':listado_ordenes()
+    }
+    return render(request,'listar_ordenes.html',data)
+
+def listado_ordenes():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    
+    cursor.callproc("SP_LISTAR_ORDENES", [out_cur])
+    
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+        
+    return lista
+
+

@@ -95,3 +95,14 @@ BEGIN
         v_salida:=0;
     
 END;
+
+
+--------procedimientos orden de pedido-------------
+CREATE OR REPLACE procedure sp_listar_ordenes(ordenes out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    open ordenes for SELECT * from core_orden_pedido;
+
+END;
