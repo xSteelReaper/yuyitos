@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static  %}
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
     <title>Listar Empleados</title>
 </head>
+
 <body>
-    
+
     <header class="header">
         <div class="container logo-nav-container">
             <a href="#" class="logo">YUYITOS</a>
@@ -25,30 +33,30 @@
                     <li><a href="#">Pedidos</a></li>
                     <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
                     <li><a href="#">Perfil</a></li>
-                    
+
                 </ul>
             </nav>
         </div>
     </header>
 
-<main class="main">
+    <main class="main">
 
 
 
-    <h2>Listado de Empleados</h2>
-    <table class="table">
-  <thead class="thead-dark">
-        <tr>
-            <th>Rut</th>
-            <th>Nombre</th>
-            <th>Direccion</th>
-            <th>Telefono</th>
-            <th>Nombre Usuario</th>
-            <th>Cargo</th>
-        </tr>
-        </thead>
-        {% for e in empleados %}
-            
+        <h2>Listado de Empleados</h2>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Rut</th>
+                    <th>Nombre</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Nombre Usuario</th>
+                    <th>Cargo</th>
+                </tr>
+            </thead>
+            {% for e in empleados %}
+
             <tr>
                 <td>{{ e.1 }}</td>
                 <td>{{ e.2 }}</td>
@@ -56,13 +64,14 @@
                 <td>{{ e.4 }}</td>
                 <td>{{ e.5 }}</td>
                 <td>{{ e.7 }}</td>
-            </tr>            
-            
-        {% endfor %}
+            </tr>
 
-    </table>
+            {% endfor %}
 
-</main>
+        </table>
+
+    </main>
 
 </body>
+
 </html>

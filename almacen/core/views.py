@@ -153,6 +153,6 @@ def listado_proveedores():
 def agregar_proveedor(rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.number)
+    salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_PROVEEDOR',[rubro_empresa,nombre_empresa,nombre_proveedor,telefono_proveedor,salida])
     return salida.getvalue()

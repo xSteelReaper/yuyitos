@@ -27,6 +27,7 @@ body {
 .logo {
     letter-spacing: 10px;
     font-size: 1.3em;
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 .navigation ul{
@@ -44,7 +45,8 @@ body {
     padding: 0.5rem 1rem;
     transition: all 0.4s linear;
     border-radius: 5px;
-    font-size: 1.1em;
+    font-size: 1.3em;
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 .navigation ul li a:hover {
@@ -55,10 +57,18 @@ h2{
     
     padding: 2rem 1rem;
     font-size: 2.5rem; 
-    line-height: 1.3rem;
+    line-height: 1.2rem;
     text-align: center;
 }
 
 .main {
     padding-top: 8rem;
+    padding-bottom: 8rem;
+    
+}
+
+
+.contenedor {
+    padding-left: 20rem;
+    padding-right: 20rem;
 }
