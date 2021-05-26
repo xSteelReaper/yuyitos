@@ -181,3 +181,40 @@ def listado_ordenes():
     return lista
 
 
+def agregar_ordenes (request):
+    
+    
+    data={
+        'empleados':listado_empleados(),
+        'proveedores':listado_proveedores(),
+    }
+        
+    if request.method == 'POST':
+        CANTIDAD_PRODUCTOS = request.POST.get('cantidad_productos')
+        PRECIO_UNITARIO = request.POST.get('precio_unitario')
+        PRECIO_TOTAL = request.POST.get('precio_total')
+        FECHA_PEDIDO = request.POST.get('fecha_pedido')
+        FECHA_ENTREGA = request.POST.get('fecha_entrega')
+        ESTADO = request.POST.get('estado')
+        EMPLEADO_RUT_EMPLEADO_ID = request.POST.get('empleado')
+        PROVEEDOR_ID_PROVEEDOR_ID = request.POST.get('proveedor')
+        DESCRIPCION = request.POST.get('descripcion')
+        salida = agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO, 
+                FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION)
+
+        if salida == 1:
+            data['mensaje'] = 'Agregado Correctamente'
+            data['productos'] = listado_proveedores()
+        else:
+            data['mensaje'] = 'No se ha podido guardar'   
+    
+    return render(request, 'agregar_orden_pedido.html',data)
+
+def agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO, 
+                FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_ORDENES',[CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO, 
+                FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION, salida])
+    return salida.getvalue()
