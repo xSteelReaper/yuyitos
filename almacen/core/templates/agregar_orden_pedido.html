@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Orden de Pedido</title>
+</head>
+<body>
+    
+
+
+    <h2>Registro de Ordenes de Pedido</h2>
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+
+        <label for="cantidad_productos">Cantidad productos</label>
+        <input type="number" name="cantidad_productos" id="cantidad_productos">
+        <br>
+        <label for="precio_unitario">Precio unitario</label>
+        <input type="number" name="precio_unitario" id="precio_unitario">
+        <br>
+        <label for="precio_total">Precio Total</label>
+        <input type="number" name="precio_total" id="precio_total">
+        <br>
+        <label for="fecha_pedido">Fecha Pedido</label>
+        <input type="date" name="fecha_pedido" id="fecha_pedido">
+        <br>
+        <label for="fecha_entrega">Fecha Entrega</label>
+        <input type="date" name="fecha_entrega" id="fecha_entrega">
+        <br>
+        <label for="estado">Estado</label>
+        <input type="number" name="estado" id="estado">
+        <br>
+        <label for="empleado">Empleado</label>
+        <select name="empleado" id="empleado">
+            <option value="">Seleccionar</option>
+            {% for e in empleados %}
+                <option value="{{ e.0 }}">{{ e.2 }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="proveedor">Proveedor</label>
+        <select name="proveedor" id="proveedor">
+            <option value="">Seleccionar</option>
+            {% for p in proveedores %}
+                <option value="{{ p.0 }}">{{ p.2 }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        
+        
+        <label for="descripcion">Descripcion</label>
+        <input type="numer" name="descripcion" id="descripcion">
+        <br>
+
+
+        <input type="submit" value="Guardar">
+
+    </form>
+
+
+</body>
+</html>

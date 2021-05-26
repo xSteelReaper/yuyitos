@@ -43,7 +43,7 @@ class Proveedor (models.Model):
     nombre_proveedor = models.CharField(max_length=100)
     telefono_proveedor = models.CharField(max_length=20)
     def __str__(self):
-        return self.nombre_proveedor
+        return self.nombre_empresa
 
 
 class Orden_Pedido (models.Model):
@@ -51,11 +51,15 @@ class Orden_Pedido (models.Model):
     cantidad_productos = models.IntegerField()
     precio_unitario = models.IntegerField()
     precio_total = models.IntegerField()
+    descripcion = models.CharField(max_length=200, default = 'Descripcion')
     fecha_pedido = models.DateField()
     fecha_entrega = models.DateField()
     estado = models.BooleanField('Enabled', default=True)
     empleado_rut_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     proveedor_id_proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.descripcion
 
 
 
