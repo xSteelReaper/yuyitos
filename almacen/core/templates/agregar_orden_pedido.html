@@ -1,66 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+
     <title>Agregar Orden de Pedido</title>
 </head>
 <body>
     
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="#">Venta</a></li>
+                    <li><a href="#">PagarFiado</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                    <li><a href="#">Perfil</a></li>
 
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+<main class="main">
+
+    <a href="{% url 'listar_ordenes' %}" class="btn btn-dark"> Listar Ordenes</a>
 
     <h2>Registro de Ordenes de Pedido</h2>
-
+    <div class="contenedor">
     <form action="" method="post">
         {% csrf_token %}
 
-
+        <div class="form-group">
         <label for="cantidad_productos">Cantidad productos</label>
-        <input type="number" name="cantidad_productos" id="cantidad_productos">
+        <input class="form-control" type="number" name="cantidad_productos" id="cantidad_productos">
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="precio_unitario">Precio unitario</label>
-        <input type="number" name="precio_unitario" id="precio_unitario">
+        <input class="form-control" type="number" name="precio_unitario" id="precio_unitario">
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="precio_total">Precio Total</label>
-        <input type="number" name="precio_total" id="precio_total">
+        <input class="form-control" type="number" name="precio_total" id="precio_total">
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="fecha_pedido">Fecha Pedido</label>
-        <input type="date" name="fecha_pedido" id="fecha_pedido">
+        <input class="form-control" type="date" name="fecha_pedido" id="fecha_pedido">
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="fecha_entrega">Fecha Entrega</label>
-        <input type="date" name="fecha_entrega" id="fecha_entrega">
+        <input class="form-control" type="date" name="fecha_entrega" id="fecha_entrega">
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="estado">Estado</label>
-        <input type="number" name="estado" id="estado">
+        <input class="form-control" type="number" name="estado" id="estado">
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="empleado">Empleado</label>
-        <select name="empleado" id="empleado">
+        <select class="form-control" name="empleado" id="empleado">
             <option value="">Seleccionar</option>
             {% for e in empleados %}
                 <option value="{{ e.0 }}">{{ e.2 }}</option>
             {% endfor %}
         </select>
+        </div>
         <br>
+        
+        <div class="form-group">
         <label for="proveedor">Proveedor</label>
-        <select name="proveedor" id="proveedor">
+        <select class="form-control" name="proveedor" id="proveedor">
             <option value="">Seleccionar</option>
             {% for p in proveedores %}
                 <option value="{{ p.0 }}">{{ p.2 }}</option>
             {% endfor %}
         </select>
+        </div>
         <br>
         
-        
+        <div class="form-group">
         <label for="descripcion">Descripcion</label>
-        <input type="numer" name="descripcion" id="descripcion">
+        <input class="form-control" type="numer" name="descripcion" id="descripcion">
+        </div>
         <br>
 
 
-        <input type="submit" value="Guardar">
-
+        <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
     </form>
+    </div>
 
+</main>
 
 </body>
 </html>

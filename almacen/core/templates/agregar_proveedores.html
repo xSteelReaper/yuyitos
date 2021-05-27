@@ -5,9 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    <link rel="stylesheet" href="css/agregar_proveedores.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
     <title>Agregar Proveedores</title>
 </head>
 <body>
@@ -18,44 +23,57 @@
             <nav class="navigation">
                 <ul>
                     <li><a href="#">Inicio</a></li>
-                    <li><a href="{% url 'listar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
                     <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
                     <li><a href="#">Venta</a></li>
                     <li><a href="#">PagarFiado</a></li>
-                    <li><a href="#">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
                     <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
                     <li><a href="#">Perfil</a></li>
-                    
+
                 </ul>
             </nav>
         </div>
     </header>
     <br>
 
-    <div class = "container" id = "contenedor_general">
-        <main class = "main">
-            <h1>Ingreso de Proveedores</h1>
-            <h2>Nuevo Proveedor</h2>
+<main class="main">
+
+    <a href="{% url 'listar_proveedores' %}" class="btn btn-dark"> Listar Empleados</a>
+    <h2>Registro de Proveedores</h2>
+    <div class="contenedor">
             <form action="" method="POST">
                 {% csrf_token %}
-        
+                <div class="form-group">
                 <label for="">Rubro Empresa</label>
-                <input type="text" name="Rubro Empresa">
+                <input class="form-control" type="text" name="Rubro Empresa">
+                </div>
                 <br>
+
+                <div class="form-group">
                 <label for="">Nombre Empresa</label>
-                <input type="text" name="Nombre Empresa">
+                <input class="form-control" type="text" name="Nombre Empresa">
+                </div>
                 <br>
+
+                <div class="form-group">
                 <label for="">Nombre Proveedor</label>
-                <input type="text" name="Nombre Proveedor">
+                <input class="form-control" type="text" name="Nombre Proveedor">
+                </div>
                 <br>
+
+                <div class="form-group">
                 <label for="">Telefono Proveedor</label>
-                <input type="text" name="Telefono Proveedor">
+                <input class="form-control" type="text" name="Telefono Proveedor">
+                </div>
                 <br>
-                <input type="submit" value="Guardar">
+
+                <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
             </form>
         
-            {{mensaje}}
-        </main>
+            
+        
     </div>
+</main>
 </body>
 </html>

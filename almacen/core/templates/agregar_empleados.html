@@ -27,7 +27,7 @@
             <nav class="navigation">
                 <ul>
                     <li><a href="#">Inicio</a></li>
-                    <li><a href="{% url 'listar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
                     <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
                     <li><a href="#">Venta</a></li>
                     <li><a href="#">PagarFiado</a></li>
@@ -44,8 +44,10 @@
 
 <main class="main">
 
-
-
+    
+    
+        <a href="{% url 'listar_empleados' %}" class="btn btn-dark"> Listar Empleados</a>
+        
         <h2>Registro de Empleados</h2>
     <div class="contenedor">
     <form action="" method="POST">
@@ -54,7 +56,7 @@
         {% csrf_token %}
         <div class="form-group">
         <label for="rut_empleado">Rut</label>
-        <input class="form-control"type="text" name="rut_empleado" id="rut_empleado">
+        <input class="form-control" type="text" name="rut_empleado" id="rut_empleado">
         </div>
         <br>
 
@@ -99,12 +101,9 @@
     </div>
 
 
-<<<<<<< HEAD
-=======
 
 </main>
 
 
->>>>>>> 97aba8de1b229e94f39c1b9138c421b1874f8b51
 </body>
 </html>
