@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Editar Cliente {{ nombre }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">   
+            <div class="col-md-12">
+                <label for="rut_cliente">RUT</label>
+                <input type="text" class="form-control" name="rut_cliente_mod" id="rut_cliente_mod" value="{{ rut }}">
+            </div>
+            <div class="col-md-12">
+                <label for="nombre_cliente">Nombre</label>
+                <input type="text" class="form-control" name="nombre_cliente_mod" id="nombre_cliente_mod" value="{{ nombre }}">
+            </div>
+            <div class="col-md-12">
+                <label for="direccion_cliente">Dirección</label>
+                <input type="text" class="form-control" name="direccion_cliente_mod" id="direccion_cliente_mod" value="{{ direccion }}">
+            </div>
+            <div class="col-md-12">
+                <label for="telefono_cliente">Teléfono</label>
+                <input type="text" class="form-control" name="telefono_cliente_mod" id="telefono_cliente_mod" value="{{ telefono }}"> 
+            </div>
+            <div class="col-md-12">
+                <label for="monto_total_deuda">Monto</label>
+                <input type="number" class="form-control" name="monto_total_deuda_mod" id="monto_total_deuda_mod" value="{{ monto }}">
+            </div>
+            <div class="col-md-12">
+                <input class="btn btn-primary" type="submit" value="Modificar">
+                <a class="btn btn-primary"  href="{% url 'cliente_fiado' %}" type="button">Volver</a>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

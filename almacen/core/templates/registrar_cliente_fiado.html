@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+
+    <div class="topnav">
+        <a class="active" href="#home">Iniciar</a>
+        <a href="perfil.html" >Proveedor</a>
+        <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
+        <a href="perfil.html" style="color:white">Venta</a>
+        <a href="perfil.html" style="color:white">PagarFiado</a>
+        <a href="perfil.html" style="color:white">Pedidos</a>
+        <a href="perfil.html" style="color:white">Empleado</a>
+        <a href="perfil.html" style="color:white">Perfil</a> 
+    </div> 
+</head>
+<body>
+    <h1>Registrar cliente</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <label for="rut_cliente">RUT</label>
+                <input type="text" class="form-control" name="rut_cliente" id="rut_cliente">
+            </div>
+            <div class="col-md-12">
+                <label for="nombre_cliente">Nombre</label>
+                <input type="text" class="form-control" name="nombre_cliente" id="nombre_cliente">
+            </div>
+            <div class="col-md-12">
+                <label for="direccion_cliente">Dirección</label>
+                <input type="text" class="form-control" name="direccion_cliente" id="direccion_cliente">
+            </div>
+            <div class="col-md-12">
+                <label for="telefono_cliente">Teléfono</label>
+                <input type="text" class="form-control" name="telefono_cliente" id="telefono_cliente">
+            </div>
+            <div class="col-md-12">
+                <label for="monto_total_deuda">Monto</label>
+                <input type="number" class="form-control" name="monto_total_deuda" id="monto_total_deuda">
+            </div>
+            <div class="col-md-12">
+                <label for="venta_id">Venta a Fiar</label>
+                <select name="venta_id" id="venta_id" class="form-control">
+                    <option value="">Seleccionar</option>
+                    {% for c in ventas %}
+                    <option value="{{ c.0 }}">Venta N° - {{ c.0 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-12">
+                <input class="btn btn-primary" type="submit" value="Guardar">
+            </div>
+        </div>
+    </form>
+    {{mensaje}}
+</body>
+</html>
