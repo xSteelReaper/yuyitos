@@ -149,16 +149,16 @@ def agregarproveedores(request):
         telefono_proveedor = request.POST.get('Telefono Proveedor')
         salida = agregar_proveedor(
             rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor)
-        if salida == 1:
-            data['mensaje'] = 'Agregado Correctamente'
-            data['productos'] = listado_proveedores()
-        else:
-            data['mensaje'] = 'No se ha podido guardar'
+        # if salida == 1:
+        #     data['mensaje'] = 'Agregado Correctamente'
+        #     data['productos'] = listado_proveedores()
+        # else:
+        #     data['mensaje'] = 'No se ha podido guardar'
 
-    return render(request, 'listar_proveedores.html', data)
+    # return render(request, 'listar_proveedores.html', data)
 
-    salida = agregar_proveedor(
-        rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor)
+    # salida = agregar_proveedor(
+    #     rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor)
 
     return render(request, 'agregar_proveedores.html')
 
