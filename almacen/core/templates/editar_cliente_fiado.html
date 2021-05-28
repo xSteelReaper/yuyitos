@@ -1,42 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+
+
+    <title>Editar Cliente</title>
 </head>
 <body>
-    <h1>Editar Cliente {{ nombre }}</h1>
+
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="#">Venta</a></li>
+                    <li><a href="#">PagarFiado</a></li>
+                    <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                    <li><a href="#">Perfil</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+<main class="main">
+
+
+
+    <h2>Editar Cliente {{ nombre }}</h2>
+    <div class="contenedor">
     <form method="POST">
         {% csrf_token %}
-        <div class="row">
+        
             <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">   
-            <div class="col-md-12">
+            <div class="form-group">
                 <label for="rut_cliente">RUT</label>
                 <input type="text" class="form-control" name="rut_cliente_mod" id="rut_cliente_mod" value="{{ rut }}">
             </div>
-            <div class="col-md-12">
+            <div class="form-group">
                 <label for="nombre_cliente">Nombre</label>
                 <input type="text" class="form-control" name="nombre_cliente_mod" id="nombre_cliente_mod" value="{{ nombre }}">
             </div>
-            <div class="col-md-12">
+            <div class="form-group">
                 <label for="direccion_cliente">Dirección</label>
                 <input type="text" class="form-control" name="direccion_cliente_mod" id="direccion_cliente_mod" value="{{ direccion }}">
             </div>
-            <div class="col-md-12">
+            <div class="form-group">
                 <label for="telefono_cliente">Teléfono</label>
                 <input type="text" class="form-control" name="telefono_cliente_mod" id="telefono_cliente_mod" value="{{ telefono }}"> 
             </div>
-            <div class="col-md-12">
+            <div class="form-group">
                 <label for="monto_total_deuda">Monto</label>
                 <input type="number" class="form-control" name="monto_total_deuda_mod" id="monto_total_deuda_mod" value="{{ monto }}">
             </div>
-            <div class="col-md-12">
+            <div class="form-group">
                 <input class="btn btn-primary" type="submit" value="Modificar">
                 <a class="btn btn-primary"  href="{% url 'cliente_fiado' %}" type="button">Volver</a>
             </div>
-        </div>
+        
     </form>
+    </div>
+
+
+</main>
+
 </body>
 </html>

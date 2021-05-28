@@ -1,48 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
 
-    <div class="topnav">
-        <a class="active" href="#home">Iniciar</a>
-        <a href="perfil.html" >Proveedor</a>
-        <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
-        <a href="perfil.html" style="color:white">Venta</a>
-        <a href="perfil.html" style="color:white">PagarFiado</a>
-        <a href="perfil.html" style="color:white">Pedidos</a>
-        <a href="perfil.html" style="color:white">Empleado</a>
-        <a href="perfil.html" style="color:white">Perfil</a> 
-    </div> 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    
+    <title>Registro Clientes</title>
+
 </head>
 <body>
-    <h1>Registrar cliente</h1>
+
+
+
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="#">Venta</a></li>
+                    <li><a href="#">PagarFiado</a></li>
+                    <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                    <li><a href="#">Perfil</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+<main class="main">
+    
+
+
+    <a href="{% url 'cliente_fiado' %}" class="btn btn-dark"> Listar Empleados</a>
+
+        
+    <h2>Registrar cliente</h2>
+    
+    
+    <div class="contenedor">
     <form method="POST">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-md-12">
+        
+            <div class="form-group">
                 <label for="rut_cliente">RUT</label>
                 <input type="text" class="form-control" name="rut_cliente" id="rut_cliente">
             </div>
-            <div class="col-md-12">
+            <br>
+
+            <div class="form-group">
                 <label for="nombre_cliente">Nombre</label>
                 <input type="text" class="form-control" name="nombre_cliente" id="nombre_cliente">
             </div>
-            <div class="col-md-12">
+            <br>
+
+            <div class="form-group">
                 <label for="direccion_cliente">Dirección</label>
                 <input type="text" class="form-control" name="direccion_cliente" id="direccion_cliente">
             </div>
-            <div class="col-md-12">
+            <br>
+
+            <div class="form-group">
                 <label for="telefono_cliente">Teléfono</label>
                 <input type="text" class="form-control" name="telefono_cliente" id="telefono_cliente">
             </div>
-            <div class="col-md-12">
+            <br>
+
+            <div class="form-group">
                 <label for="monto_total_deuda">Monto</label>
                 <input type="number" class="form-control" name="monto_total_deuda" id="monto_total_deuda">
             </div>
-            <div class="col-md-12">
+            <br>
+
+            <div class="form-group">
                 <label for="venta_id">Venta a Fiar</label>
                 <select name="venta_id" id="venta_id" class="form-control">
                     <option value="">Seleccionar</option>
@@ -51,11 +97,16 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-12">
-                <input class="btn btn-primary" type="submit" value="Guardar">
-            </div>
-        </div>
+            <br>
+            
+            <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
+        
     </form>
-    {{mensaje}}
+    </div>
+    
+
+
+
+</main>
 </body>
 </html>

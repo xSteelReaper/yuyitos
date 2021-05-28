@@ -1,25 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar</title>
 
-    <div class="topnav">
-        <a class="active" href="#home">Iniciar</a>
-        <a href="perfil.html" >Proveedor</a>
-        <a href="/paginas/listarProducto.html" style="color:white">Stock</a>
-        <a href="perfil.html" style="color:white">Venta</a>
-        <a href="perfil.html" style="color:white">PagarFiado</a>
-        <a href="perfil.html" style="color:white">Pedidos</a>
-        <a href="perfil.html" style="color:white">Empleado</a>
-        <a href="perfil.html" style="color:white">Perfil</a> 
-    </div> 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+
+
+    <title>Listar Clientes</title>
+
 </head>
 <body>
-    <h1>lista de clientes fiados</h1>
-    <table>
+    
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="#">Venta</a></li>
+                    <li><a href="#">PagarFiado</a></li>
+                    <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                    <li><a href="#">Perfil</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+<main class="main">   
+    
+    
+    <h2>lista de clientes fiados</h2>
+    <table class="table">
+    <thead class="thead-dark">
         <tr>
             <th>ID</th>
             <th>RUT</th>
@@ -32,6 +67,7 @@
             <th>Acciones</th>
 
         </tr>
+    </thead>
         {% for p in cliente_fiado %}
             <tr>
                 <td>{{ p.0 }}</td>
@@ -50,5 +86,9 @@
 
         {% endfor %}
     </table>
+
+
+
+</main>
 </body>
 </html>

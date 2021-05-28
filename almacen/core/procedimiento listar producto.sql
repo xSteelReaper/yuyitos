@@ -99,16 +99,14 @@ begin
     from core_cliente_fiado;
 end;
 
-create or replace procedure SP_MODIFICAR_CLIENTE_FIADO (id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
-v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_monto_total_deuda NUMBER, v_salida out number
+create or replace procedure sp_registrar_cliente_fiado (v_rut_cliente varchar2,v_nombre_cliente varchar2,
+v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_estado_cliente NUMBER,v_monto_total_deuda NUMBER,id_venta NUMBER, v_salida out number
 )is
 begin
-    UPDATE core_cliente_fiado set rut_cliente = v_rut_cliente,
-    set nombre_cliente = v_nombre_cliente,
-    set direccion_cliente = v_direccion_cliente, 
-    set telefono_cliente = v_telefono_cliente,
-    set monto_total_deuda = v_monto_total_deuda
-    where id = id_modificando;
+    insert into core_cliente_fiado
+        (rut_cliente, nombre_cliente,direccion_cliente,telefono_cliente,
+        estado_cliente,monto_total_deuda, id_venta_fiado_id)
+    values(v_rut_cliente, v_nombre_cliente, v_direccion_cliente, v_telefono_cliente, v_estado_cliente, v_monto_total_deuda, id_venta);
     commit;
     v_salida:=1;
 
@@ -119,15 +117,17 @@ v_salida:=0;
 
 end;
 
-
-create or replace procedure sp_registrar_cliente_fiado (v_rut_cliente varchar2,v_nombre_cliente varchar2,
-v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_estado_cliente NUMBER,v_monto_total_deuda NUMBER,id_venta NUMBER, v_salida out number
+create or replace procedure SP_MODIFICAR_CLIENTE_FIADO
+(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
+v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_monto_total_deuda NUMBER, v_salida out number
 )is
 begin
-    insert into core_cliente_fiado
-        (rut_cliente, nombre_cliente,direccion_cliente,telefono_cliente,
-        estado_cliente,monto_total_deuda, id_venta_fiado_id)
-    values(v_rut_cliente, v_nombre_cliente, v_direccion_cliente, v_telefono_cliente, v_estado_cliente, v_monto_total_deuda, id_venta);
+    UPDATE core_cliente_fiado set rut_cliente = v_rut_cliente,
+     nombre_cliente = v_nombre_cliente,
+     direccion_cliente = v_direccion_cliente, 
+     telefono_cliente = v_telefono_cliente,
+     monto_total_deuda = v_monto_total_deuda
+    where id = id_modificando;
     commit;
     v_salida:=1;
 
@@ -179,25 +179,22 @@ exception
 v_salida:=0;
 
 end;
---------procedimientos empleado-------------
 
-CREATE OR REPLACE procedure sp_listar_empleados(empleados out SYS_REFCURSOR)
-IS
-
+create or replace PROCEDURE SP_LISTAR_VENTAS_BY_EMPLEADO (ventas_empleados out SYS_REFCURSOR) IS
 BEGIN
-
-    open empleados for SELECT * from core_empleado;
-
+  OPEN ventas_empleados FOR SELECT * FROM core_venta p JOIN core_empleado e ON e.id = p.empleado_rut_empleado_id;
 END;
 
-CREATE OR REPLACE procedure sp_agregar_empleados(
- v_RUT_EMPLEADO NVARCHAR2,
- v_NOMBRE_EMPLEADO NVARCHAR2,
- v_DIRECCION_EMPLEADO NVARCHAR2,
- v_TELEFONO_EMPLEADO NVARCHAR2,
- v_NOMBRE_USUARIO NVARCHAR2,
- v_CONTRASEÑA_EMPLEADO NVARCHAR2,
- v_CARGO_EMPLEADO number,
+--------procedimientos empleado-------------
+
+create or replace procedure sp_agregar_empleados(
+ v_RUT_EMPLEADO VARCHAR2,
+ v_NOMBRE_EMPLEADO VARCHAR2,
+ v_DIRECCION_EMPLEADO VARCHAR2,
+ v_TELEFONO_EMPLEADO VARCHAR2,
+ v_NOMBRE_USUARIO VARCHAR2,
+ v_CONTRASEÑA_EMPLEADO VARCHAR2,
+ v_CARGO_EMPLEADO VARCHAR2,
  v_salida out number
 
 
@@ -213,13 +210,23 @@ BEGIN
             v_CARGO_EMPLEADO);
     commit;
     v_salida:=1;
-    
-    
+
+
     exception
-    
+
     when others then
         v_salida:=0;
-    
+
+END;
+
+
+create or replace procedure sp_listar_empleados(empleados out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    open empleados for SELECT * from core_empleado;
+
 END;
 
 
