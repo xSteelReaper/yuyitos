@@ -1,0 +1,7 @@
+#tabla{
+    margin:auto;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    width: 420px;
+    box-shadow: 0px 0px 5px 1px rgba(125,125,125,1);
+}

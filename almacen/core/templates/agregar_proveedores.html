@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
-
+{% load static  %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,10 +13,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-
-    <title>Listar Empleados</title>
+    <title>Agregar Proveedores</title>
 </head>
-
 <body>
 
     <header class="header">
@@ -38,40 +35,45 @@
             </nav>
         </div>
     </header>
+    <br>
 
-    <main class="main">
+<main class="main">
 
+    <a href="{% url 'listar_proveedores' %}" class="btn btn-dark"> Listar Empleados</a>
+    <h2>Registro de Proveedores</h2>
+    <div class="contenedor">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                <label for="">Rubro Empresa</label>
+                <input class="form-control" type="text" name="Rubro Empresa">
+                </div>
+                <br>
 
+                <div class="form-group">
+                <label for="">Nombre Empresa</label>
+                <input class="form-control" type="text" name="Nombre Empresa">
+                </div>
+                <br>
 
-        <h2>Listado de Empleados</h2>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Rut</th>
-                    <th>Nombre</th>
-                    <th>Direccion</th>
-                    <th>Telefono</th>
-                    <th>Nombre Usuario</th>
-                    <th>Cargo</th>
-                </tr>
-            </thead>
-            {% for e in empleados %}
+                <div class="form-group">
+                <label for="">Nombre Proveedor</label>
+                <input class="form-control" type="text" name="Nombre Proveedor">
+                </div>
+                <br>
 
-            <tr>
-                <td>{{ e.1 }}</td>
-                <td>{{ e.2 }}</td>
-                <td>{{ e.3 }}</td>
-                <td>{{ e.4 }}</td>
-                <td>{{ e.5 }}</td>
-                <td>{{ e.7 }}</td>
-            </tr>
+                <div class="form-group">
+                <label for="">Telefono Proveedor</label>
+                <input class="form-control" type="text" name="Telefono Proveedor">
+                </div>
+                <br>
 
-            {% endfor %}
-
-        </table>
-
-    </main>
-
+                <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
+            </form>
+        
+            
+        
+    </div>
+</main>
 </body>
-
 </html>

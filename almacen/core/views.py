@@ -124,12 +124,23 @@ def agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO
 
 def proveedores(request):
 
-    # print(listado_proveedores())
     data = {
         'proveedores': listado_proveedores()
     }
 
     # agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
+
+    '''if salida == 1:
+        data['mensaje'] = 'Agregado Correctamente'
+        data['productos'] = listado_proveedores()
+    else:
+        data['mensaje'] = 'No se ha podido guardar' 
+    '''
+    #agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
+    return render(request, 'listar_proveedores.html', data)
+
+
+def agregarproveedores(request):
 
     if request.method == 'POST':
         rubro_empresa = request.POST.get('Rubro Empresa')
@@ -145,6 +156,11 @@ def proveedores(request):
             data['mensaje'] = 'No se ha podido guardar'
 
     return render(request, 'listar_proveedores.html', data)
+
+    salida = agregar_proveedor(
+        rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor)
+
+    return render(request, 'agregar_proveedores.html')
 
 
 def listado_proveedores():
@@ -256,7 +272,7 @@ def modificarCliente(request, id):
     lista = []
     for fila in out_cur:
         lista.append(fila)
-    
+
     id = lista[0][0]
     rut = lista[0][1]
     nombre = lista[0][2]
@@ -271,18 +287,20 @@ def modificarCliente(request, id):
         direccion_cliente = request.POST.get('direccion_cliente_mod')
         telefono_cliente = request.POST.get('telefono_cliente_mod')
         monto_total_deuda = request.POST.get('monto_total_deuda_mod')
-        salida = modificar_fiado(id_modificando, rut_cliente, nombre_cliente, direccion_cliente, telefono_cliente, monto_total_deuda)
-    
+        salida = modificar_fiado(id_modificando, rut_cliente, nombre_cliente,
+                                 direccion_cliente, telefono_cliente, monto_total_deuda)
+
     return render(request, 'editar_cliente_fiado.html', {
-        "Listado" : lista,
-        "id" : id,
-        "rut" : rut,
-        "nombre" : nombre,
-        "direccion" : direccion,
-        "telefono" : telefono,
-        "monto" : monto,
+        "Listado": lista,
+        "id": id,
+        "rut": rut,
+        "nombre": nombre,
+        "direccion": direccion,
+        "telefono": telefono,
+        "monto": monto,
     })
-    
+
+
 def modificar_fiado(id_modificando, rut_cliente, nombre_cliente, direccion_cliente, telefono_cliente, monto_total_deuda):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -301,3 +319,70 @@ def eliminarCliente(request, idCliente):
         'cliente_fiado': listar_cliente_fiado(),
     }
     return render(request, 'listar_cliente_fiado.html', data)
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_PROVEEDOR', [
+                    rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor, salida])
+    return salida.getvalue()
+
+
+# CRUD ORDEN DE PEDIDO
+# Esto lo hizo Daniel
+
+def ordenes(request):
+    data = {
+        'ordenes': listado_ordenes()
+    }
+    return render(request, 'listar_ordenes.html', data)
+
+
+def listado_ordenes():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_ORDENES", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    return lista
+
+
+def agregar_ordenes(request):
+
+    data = {
+        'empleados': listado_empleados(),
+        'proveedores': listado_proveedores(),
+    }
+
+    if request.method == 'POST':
+        CANTIDAD_PRODUCTOS = request.POST.get('cantidad_productos')
+        PRECIO_UNITARIO = request.POST.get('precio_unitario')
+        PRECIO_TOTAL = request.POST.get('precio_total')
+        FECHA_PEDIDO = request.POST.get('fecha_pedido')
+        FECHA_ENTREGA = request.POST.get('fecha_entrega')
+        ESTADO = request.POST.get('estado')
+        EMPLEADO_RUT_EMPLEADO_ID = request.POST.get('empleado')
+        PROVEEDOR_ID_PROVEEDOR_ID = request.POST.get('proveedor')
+        DESCRIPCION = request.POST.get('descripcion')
+        salida = agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION)
+
+        if salida == 1:
+            data['mensaje'] = 'Agregado Correctamente'
+            data['productos'] = listado_proveedores()
+        else:
+            data['mensaje'] = 'No se ha podido guardar'
+
+    return render(request, 'agregar_orden_pedido.html', data)
+
+
+def agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                  FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_ORDENES', [CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                                           FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION, salida])
+    return salida.getvalue()

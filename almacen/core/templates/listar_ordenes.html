@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -15,9 +16,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
-    <title>Listar Empleados</title>
-</head>
 
+    <title>Listado de Ordenes</title>
+</head>
 <body>
 
     <header class="header">
@@ -26,7 +27,7 @@
             <nav class="navigation">
                 <ul>
                     <li><a href="#">Inicio</a></li>
-                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'listar_proveedores' %}">Proveedor</a></li>
                     <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
                     <li><a href="#">Venta</a></li>
                     <li><a href="#">PagarFiado</a></li>
@@ -39,39 +40,46 @@
         </div>
     </header>
 
-    <main class="main">
+
+<main class="main">
 
 
-
-        <h2>Listado de Empleados</h2>
-        <table class="table">
+    <h2>Listado de Ordenes de Pedido</h2>
+    <table class="table">
             <thead class="thead-dark">
-                <tr>
-                    <th>Rut</th>
-                    <th>Nombre</th>
-                    <th>Direccion</th>
-                    <th>Telefono</th>
-                    <th>Nombre Usuario</th>
-                    <th>Cargo</th>
-                </tr>
-            </thead>
-            {% for e in empleados %}
+            <th>Cantidad productos</th>
+            <th>Precio unitario</th>
+            <th>Precio total</th>
+            <th>Fecha pedido</th>
+            <th>Fecha entrega</th>
+            <th>Estado</th>
+            <th>ID Empleado a cargo</th>
+            <th>ID Proveedor</th>
+            <th>Descripcion</th>
+            
+        </tr>
+        </thead>
+        {% for o in ordenes %}
 
             <tr>
-                <td>{{ e.1 }}</td>
-                <td>{{ e.2 }}</td>
-                <td>{{ e.3 }}</td>
-                <td>{{ e.4 }}</td>
-                <td>{{ e.5 }}</td>
-                <td>{{ e.7 }}</td>
-            </tr>
+                <td>{{ o.1 }}</td>
+                <td>{{ o.2 }}</td>
+                <td>{{ o.3 }}</td>
+                <td>{{ o.4 }}</td>
+                <td>{{ o.5 }}</td>
+                <td>{{ o.6 }}</td>
+                <td>{{ o.7 }}</td>
+                <td>{{ o.8 }}</td>
+                <td>{{ o.9 }}</td>
+                
 
-            {% endfor %}
+            </tr>            
 
-        </table>
+        {% endfor %}
+
+    </table>
+
 
     </main>
-
 </body>
-
 </html>

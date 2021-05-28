@@ -11,5 +11,8 @@ urlpatterns = [
     path('listarClienteFiado', cliente_fiado, name='cliente_fiado' ),
     path('modificarCliente/<int:id>', modificarCliente, name='modificar_cliente' ),
     path('eliminarCliente/<int:idCliente>', eliminarCliente, name='eliminar_cliente' ),
-   
+    path('agregarProveedores', agregarproveedores, name = 'agregar_proveedores'),
+    path('listarorden', ordenes, name='listar_ordenes'),
+    path('agregarOrden', agregar_ordenes, name='agregar_ordenes')
 ]
+

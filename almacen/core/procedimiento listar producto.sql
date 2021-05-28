@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 
 create or replace procedure sp_listar_productos
 (productos out SYS_REFCURSOR)
+=======
+--------procedimientos producto-------------
+create or replace procedure sp_listar_productos (productos out SYS_REFCURSOR)
+>>>>>>> eb429dd0f838ee5137677f65478a2e93347a6022
 is
 begin
     open productos
@@ -53,8 +58,15 @@ v_salida:
 
 end;
 
+<<<<<<< HEAD
 create or replace procedure sp_listar_proveedores
 (proveedores out SYS_REFCURSOR)
+=======
+
+--------procedimientos proveedor-------------
+
+create or replace procedure sp_listar_proveedores(proveedores out SYS_REFCURSOR)
+>>>>>>> eb429dd0f838ee5137677f65478a2e93347a6022
 IS
 
 BEGIN
@@ -195,3 +207,93 @@ exception
 v_salida:=0;
 
 end;
+--------procedimientos empleado-------------
+
+CREATE OR REPLACE procedure sp_listar_empleados(empleados out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    open empleados for SELECT * from core_empleado;
+
+END;
+
+CREATE OR REPLACE procedure sp_agregar_empleados(
+ v_RUT_EMPLEADO NVARCHAR2,
+ v_NOMBRE_EMPLEADO NVARCHAR2,
+ v_DIRECCION_EMPLEADO NVARCHAR2,
+ v_TELEFONO_EMPLEADO NVARCHAR2,
+ v_NOMBRE_USUARIO NVARCHAR2,
+ v_CONTRASEÑA_EMPLEADO NVARCHAR2,
+ v_CARGO_EMPLEADO number,
+ v_salida out number
+
+
+)
+IS
+
+BEGIN
+    insert into CORE_EMPLEADO (RUT_EMPLEADO, NOMBRE_EMPLEADO,
+                DIRECCION_EMPLEADO, TELEFONO_EMPLEADO, NOMBRE_USUARIO,
+                CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+    values (v_RUT_EMPLEADO, v_NOMBRE_EMPLEADO, v_DIRECCION_EMPLEADO,
+            v_TELEFONO_EMPLEADO, v_NOMBRE_USUARIO, v_CONTRASEÑA_EMPLEADO,
+            v_CARGO_EMPLEADO);
+    commit;
+    v_salida:=1;
+    
+    
+    exception
+    
+    when others then
+        v_salida:=0;
+    
+END;
+
+
+--------procedimientos orden de pedido-------------
+CREATE OR REPLACE procedure sp_listar_ordenes(ordenes out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    open ordenes for SELECT * from core_orden_pedido;
+
+END;
+
+
+
+CREATE OR REPLACE procedure sp_agregar_ordenes(
+v_CANTIDAD_PRODUCTOS number,
+v_PRECIO_UNITARIO number,
+v_PRECIO_TOTAL number,
+v_FECHA_PEDIDO date,
+v_FECHA_ENTREGA date,
+v_ESTADO number,
+v_EMPLEADO_RUT_EMPLEADO_ID number,
+v_PROVEEDOR_ID_PROVEEDOR_ID number,
+v_DESCRIPCION NVARCHAR2,
+v_salida out number
+
+
+)
+IS
+
+BEGIN
+    insert into CORE_ORDEN_PEDIDO (CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO, 
+                FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION)
+    values (v_CANTIDAD_PRODUCTOS, v_PRECIO_UNITARIO, v_PRECIO_TOTAL, v_FECHA_PEDIDO, v_FECHA_ENTREGA,
+            v_ESTADO, v_EMPLEADO_RUT_EMPLEADO_ID, v_PROVEEDOR_ID_PROVEEDOR_ID, v_DESCRIPCION);
+    
+    
+    
+    commit;
+    v_salida:=1;
+    
+    
+    exception
+    
+    when others then
+        v_salida:=0;
+    
+END;

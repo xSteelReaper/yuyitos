@@ -16,11 +16,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
 
-
-    <title>Agregar Empleados</title>
+    <title>Agregar Orden de Pedido</title>
 </head>
 <body>
-
+    
     <header class="header">
         <div class="container logo-nav-container">
             <a href="#" class="logo">YUYITOS</a>
@@ -44,66 +43,83 @@
 
 <main class="main">
 
-    
-    
-        <a href="{% url 'listar_empleados' %}" class="btn btn-dark"> Listar Empleados</a>
-        
-        <h2>Registro de Empleados</h2>
+    <a href="{% url 'listar_ordenes' %}" class="btn btn-dark"> Listar Ordenes</a>
+
+    <h2>Registro de Ordenes de Pedido</h2>
     <div class="contenedor">
-    <form action="" method="POST">
-        
-        
+    <form action="" method="post">
         {% csrf_token %}
-        <div class="form-group">
-        <label for="rut_empleado">Rut</label>
-        <input class="form-control" type="text" name="rut_empleado" id="rut_empleado">
-        </div>
-        <br>
 
         <div class="form-group">
-        <label for="nombre_empleado">Nombre</label>
-        <input class="form-control" type="text" name="nombre_empleado" id="nombre_empleado">
-        </div>
-        <br>
-
-        <div class="form-group">
-        <label for="direccion_empleado">Direccion</label>
-        <input class="form-control" type="text" name="direccion_empleado" id="direccion_empleado">
-        </div>
-        <br>
-
-        <div class="form-group">
-        <label for="telefono_empleado">Telefono</label>
-        <input class="form-control" type="text" name="telefono_empleado" id="telefono_empleado">
-        </div>
-        <br>
-
-        <div class="form-group">
-        <label for="nombre_usuario">Nombre Usuario</label>
-        <input class="form-control" type="text" name="nombre_usuario" id="nombre_usuario">
-        </div>
-        <br>
-
-        <div class="form-group">
-        <label for="contraseña_empleado">Contraseña</label>
-        <input class="form-control" type="password" name="contraseña_empleado" id="contraseña_empleado">
-        </div>
-        <br>
-
-        <div class="form-group">
-        <label for="cargo_empleado">Cargo Empleado</label>
-        <input class="form-control" type="text" name="cargo_empleado" id="cargo_empleado">
+        <label for="cantidad_productos">Cantidad productos</label>
+        <input class="form-control" type="number" name="cantidad_productos" id="cantidad_productos">
         </div>
         <br>
         
+        <div class="form-group">
+        <label for="precio_unitario">Precio unitario</label>
+        <input class="form-control" type="number" name="precio_unitario" id="precio_unitario">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="precio_total">Precio Total</label>
+        <input class="form-control" type="number" name="precio_total" id="precio_total">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="fecha_pedido">Fecha Pedido</label>
+        <input class="form-control" type="date" name="fecha_pedido" id="fecha_pedido">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="fecha_entrega">Fecha Entrega</label>
+        <input class="form-control" type="date" name="fecha_entrega" id="fecha_entrega">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="estado">Estado</label>
+        <input class="form-control" type="number" name="estado" id="estado">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="empleado">Empleado</label>
+        <select class="form-control" name="empleado" id="empleado">
+            <option value="">Seleccionar</option>
+            {% for e in empleados %}
+                <option value="{{ e.0 }}">{{ e.2 }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="proveedor">Proveedor</label>
+        <select class="form-control" name="proveedor" id="proveedor">
+            <option value="">Seleccionar</option>
+            {% for p in proveedores %}
+                <option value="{{ p.0 }}">{{ p.2 }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="descripcion">Descripcion</label>
+        <input class="form-control" type="numer" name="descripcion" id="descripcion">
+        </div>
+        <br>
+
+
         <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
     </form>
     </div>
 
-
-
 </main>
-
 
 </body>
 </html>
