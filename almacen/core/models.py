@@ -65,18 +65,11 @@ class Orden_Pedido (models.Model):
     fecha_pedido = models.DateField()
     fecha_entrega = models.DateField()
     estado = models.BooleanField('Enabled', default=True)
-    empleado_rut_empleado = models.ForeignKey(
-        Empleado, on_delete=models.CASCADE)
-    proveedor_id_proveedor = models.ForeignKey(
-        Proveedor, on_delete=models.CASCADE)
     empleado_rut_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     proveedor_id_proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.descripcion
-
-    def __str__(self):
-        return self.nombre
 
 
 class Recepcion_Pedido (models.Model):
