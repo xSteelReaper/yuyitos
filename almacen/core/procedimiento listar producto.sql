@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 
-create or replace procedure sp_listar_productos
-(productos out SYS_REFCURSOR)
-=======
---------procedimientos producto-------------
 create or replace procedure sp_listar_productos (productos out SYS_REFCURSOR)
->>>>>>> eb429dd0f838ee5137677f65478a2e93347a6022
 is
 begin
     open productos
@@ -15,8 +9,7 @@ begin
 end;
 
 
-create or replace procedure sp_agregar_producto
-(v_familia_producto varchar2,
+create or replace procedure sp_agregar_producto (v_familia_producto varchar2,
 v_fecha_vencimiento DATE,
 v_tipo_producto varchar2,
 v_descripcion	varchar2,
@@ -58,15 +51,10 @@ v_salida:
 
 end;
 
-<<<<<<< HEAD
-create or replace procedure sp_listar_proveedores
-(proveedores out SYS_REFCURSOR)
-=======
 
 --------procedimientos proveedor-------------
 
 create or replace procedure sp_listar_proveedores(proveedores out SYS_REFCURSOR)
->>>>>>> eb429dd0f838ee5137677f65478a2e93347a6022
 IS
 
 BEGIN
@@ -77,8 +65,7 @@ BEGIN
     from core_proveedor;
 END;
 
-create or replace procedure sp_agregar_proveedor
-(
+create or replace procedure sp_agregar_proveedor (
     v_rubroEmpresa varchar2,
     v_nombreEmpresa varchar2,
     v_nombreProveedor varchar2,
@@ -101,9 +88,9 @@ v_salida:
 = 0;
 END;
 
+------------Procedimientos Cliente fiado----------------------
 
-create or replace procedure sp_listar_cliente
-(cliente_fiado out SYS_REFCURSOR)
+create or replace procedure sp_listar_cliente (cliente_fiado out SYS_REFCURSOR)
 is
 begin
     open cliente_fiado
@@ -112,33 +99,20 @@ begin
     from core_cliente_fiado;
 end;
 
-create or replace procedure sp_registrar_cliente_fiado(
-v_rut_cliente varchar2,
-v_nombre_cliente varchar2,
-v_direccion_cliente varchar2,
-v_telefono_cliente varchar2,
-v_estado_cliente NUMBER,
-v_monto_total_deuda NUMBER,
-v_salida out number
+create or replace procedure SP_MODIFICAR_CLIENTE_FIADO (id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
+v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_monto_total_deuda NUMBER, v_salida out number
 )is
 begin
-    insert into core_cliente_fiado
-        (rut_cliente, 
-        nombre_cliente,
-        direccion_cliente,
-        telefono_cliente,
-        estado_cliente,
-        monto_total_deuda)
-    values(v_rut_cliente, 
-    v_nombre_cliente, 
-    v_direccion_cliente, 
-    v_telefono_cliente, 
-    v_estado_cliente, 
-    v_monto_total_deuda);
+    UPDATE core_cliente_fiado set rut_cliente = v_rut_cliente,
+    set nombre_cliente = v_nombre_cliente,
+    set direccion_cliente = v_direccion_cliente, 
+    set telefono_cliente = v_telefono_cliente,
+    set monto_total_deuda = v_monto_total_deuda
+    where id = id_modificando;
     commit;
     v_salida:=1;
 
-    exception
+exception
 
     when others then
 v_salida:=0;
@@ -146,8 +120,7 @@ v_salida:=0;
 end;
 
 
-create or replace procedure sp_registrar_cliente_fiado
-(v_rut_cliente varchar2,v_nombre_cliente varchar2,
+create or replace procedure sp_registrar_cliente_fiado (v_rut_cliente varchar2,v_nombre_cliente varchar2,
 v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_estado_cliente NUMBER,v_monto_total_deuda NUMBER,id_venta NUMBER, v_salida out number
 )is
 begin
@@ -193,8 +166,7 @@ v_salida:=0;
 
 end;
 
-create or replace procedure SP_ELIMINAR_CLIENTE_FIADO
-(idCliente NUMBER, v_salida out number
+create or replace procedure SP_ELIMINAR_CLIENTE_FIADO (idCliente NUMBER, v_salida out number
 )is
 begin
     DELETE FROM core_cliente_fiado where id = idCliente;
