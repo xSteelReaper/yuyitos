@@ -229,6 +229,22 @@ BEGIN
 
 END;
 
+CREATE OR REPLACE PROCEDURE SP_ELIMINAR_EMPLEADO (idEmpleado number, v_salida out number)
+IS
+BEGIN
+    DELETE FROM core_empleado where id = idEmpleado;
+    commit;
+    v_salida:=1;
+
+    exception
+
+    when others then
+v_salida:=0;
+
+END;
+
+
+
 
 --------procedimientos orden de pedido-------------
 CREATE OR REPLACE procedure sp_listar_ordenes(ordenes out SYS_REFCURSOR)

@@ -54,6 +54,7 @@
                     <th>Telefono</th>
                     <th>Nombre Usuario</th>
                     <th>Cargo</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             {% for e in empleados %}
@@ -65,6 +66,10 @@
                 <td>{{ e.4 }}</td>
                 <td>{{ e.5 }}</td>
                 <td>{{ e.7 }}</td>
+                <td>
+                    <a type="button" href="#" class="btn btn-warning"><i class="fa fa-pencil"> Editar</i></a>
+                    <a type="button" href="{% url 'eliminar_empleado' idEmpleado=e.0 %}" class="btn btn-danger"><i class="fa fa-trash"> Eliminar</i></a>
+                </td>  
             </tr>
 
             {% endfor %}

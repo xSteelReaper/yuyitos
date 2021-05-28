@@ -70,7 +70,7 @@ precio,nombre_producto,marca_producto,stock,stock_critico,salida])
     return salida.getvalue() """
 
 
-"""esto lo hizo el dani"""
+# --------- CRUD EMPLEDOS ------------
 
 
 def empleados(request):
@@ -118,6 +118,19 @@ def agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO
     cursor.callproc('SP_AGREGAR_EMPLEADOS', [RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
                                              NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO, salida])
     return salida.getvalue()
+
+
+
+
+def eliminarEmpleado(request, idEmpleado):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_EMPLEADO', [idEmpleado,  salida])
+    data = {
+        'empleados': listado_empleados()
+    }
+    return render(request, 'listar_empleados.html', data)
 
 #  LO HIZO SALOMOON
 
@@ -180,7 +193,7 @@ def listado_proveedores():
 def agregar_proveedor(rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.number)
+    salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_PROVEEDOR', [
                     rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor, salida])
     return salida.getvalue()
@@ -319,10 +332,6 @@ def eliminarCliente(request, idCliente):
         'cliente_fiado': listar_cliente_fiado(),
     }
     return render(request, 'listar_cliente_fiado.html', data)
-    salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_PROVEEDOR', [
-                    rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor, salida])
-    return salida.getvalue()
 
 
 # CRUD ORDEN DE PEDIDO
