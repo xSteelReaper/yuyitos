@@ -145,16 +145,15 @@ begin
     SELECT * FROM core_cliente_fiado where id = idN;
 end;
 
-create or replace procedure SP_MODIFICAR_CLIENTE_FIADO
-(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
+create or replace procedure SP_MODIFICAR_CLIENTE_FIADO(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
 v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_monto_total_deuda NUMBER, v_salida out number
 )is
 begin
     UPDATE core_cliente_fiado set rut_cliente = v_rut_cliente,
-    set nombre_cliente = v_nombre_cliente,
-    set direccion_cliente = v_direccion_cliente, 
-    set telefono_cliente = v_telefono_cliente,
-    set monto_total_deuda = v_monto_total_deuda
+     nombre_cliente = v_nombre_cliente,
+     direccion_cliente = v_direccion_cliente, 
+     telefono_cliente = v_telefono_cliente,
+     monto_total_deuda = v_monto_total_deuda
     where id = id_modificando;
     commit;
     v_salida:=1;
@@ -244,6 +243,46 @@ v_salida:=0;
 END;
 
 
+
+
+create or replace procedure SP_MODIFICAR_EMPLEADO(
+id_modificando number, 
+v_RUT_EMPLEADO VARCHAR2,
+ v_NOMBRE_EMPLEADO VARCHAR2,
+ v_DIRECCION_EMPLEADO VARCHAR2,
+ v_TELEFONO_EMPLEADO VARCHAR2,
+ v_NOMBRE_USUARIO VARCHAR2,
+ v_CONTRASEÑA_EMPLEADO VARCHAR2,
+ v_CARGO_EMPLEADO VARCHAR2,
+ v_salida out number
+)is
+begin
+    UPDATE core_empleado set RUT_EMPLEADO = v_RUT_EMPLEADO,
+    NOMBRE_EMPLEADO = v_NOMBRE_EMPLEADO,
+    DIRECCION_EMPLEADO = v_DIRECCION_EMPLEADO, 
+    TELEFONO_EMPLEADO = v_TELEFONO_EMPLEADO,
+    NOMBRE_USUARIO = v_NOMBRE_USUARIO,
+    CONTRASEÑA_EMPLEADO = v_CONTRASEÑA_EMPLEADO,
+    CARGO_EMPLEADO = v_CARGO_EMPLEADO
+    where id = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+
+end;
+
+
+
+create or replace procedure SP_TRAER_DATOS_EMPLEADO (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM core_empleado where id = idN;
+end;
 
 
 --------procedimientos orden de pedido-------------

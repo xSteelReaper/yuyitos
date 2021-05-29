@@ -120,6 +120,70 @@ def agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO
     return salida.getvalue()
 
 
+def modificarEmpleado(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_EMPLEADO", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    
+    id = lista[0][0]
+    rut = lista[0][1]
+    nombre = lista[0][2]
+    direccion = lista[0][3]
+    telefono = lista[0][4]
+    usuario = lista[0][5]
+    contraseña = lista[0][6]
+    cargo = lista[0][7]
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        RUT_EMPLEADO = request.POST.get('rut_empleado_edit')
+        NOMBRE_EMPLEADO = request.POST.get('nombre_empleado_edit')
+        DIRECCION_EMPLEADO = request.POST.get('direccion_empleado_edit')
+        TELEFONO_EMPLEADO = request.POST.get('telefono_empleado_edit')
+        NOMBRE_USUARIO = request.POST.get('nombre_usuario_edit')
+        CONTRASEÑA_EMPLEADO = request.POST.get('contraseña_empleado_edit')
+        CARGO_EMPLEADO = request.POST.get('cargo_empleado_edit')
+        salida = modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
+                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+        
+    return render(request, 'editar_empleados.html', {
+        "Listado" : lista,
+        "id" : id,
+        "rut" : rut,
+        "nombre" : nombre,
+        "direccion" : direccion,
+        "telefono" : telefono,
+        "usuario" : usuario,
+        "contraseña" : contraseña,
+        "cargo" : cargo,
+    })
+    
+def modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
+                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_EMPLEADO', [
+                    id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
+                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO, salida])
+    return salida.getvalue()
+
+
+
+
+
+
+
+
+
+
+
 
 
 def eliminarEmpleado(request, idEmpleado):
@@ -131,6 +195,11 @@ def eliminarEmpleado(request, idEmpleado):
         'empleados': listado_empleados()
     }
     return render(request, 'listar_empleados.html', data)
+
+
+
+
+
 
 #  LO HIZO SALOMOON
 

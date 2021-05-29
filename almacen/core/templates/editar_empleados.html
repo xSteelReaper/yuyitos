@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    <title>Editar Empleados</title>
+</head>
+<body>
+    
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="#">Venta</a></li>
+                    <li><a href="#">PagarFiado</a></li>
+                    <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                    <li><a href="#">Perfil</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="main">
+
+    
+    
+        <a href="{% url 'listar_empleados' %}" class="btn btn-dark"> Listar Empleados</a>
+        
+        <h2>Editar Empleado {{ nombre }}</h2>
+        <div class="contenedor">
+        <form method="POST">
+        
+        
+        {% csrf_token %}
+
+        <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">
+        <div class="form-group">
+        <label for="rut_empleado">Rut</label>
+        <input class="form-control" type="text" name="rut_empleado_edit" id="rut_empleado_edit" value="{{ rut }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="nombre_empleado">Nombre</label>
+        <input class="form-control" type="text" name="nombre_empleado_edit" id="nombre_empleado_edit" value="{{ nombre }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="direccion_empleado">Direccion</label>
+        <input class="form-control" type="text" name="direccion_empleado_edit" id="direccion_empleado_edit" value="{{ direccion }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="telefono_empleado">Telefono</label>
+        <input class="form-control" type="text" name="telefono_empleado_edit" id="telefono_empleado_edit" value="{{ telefono }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="nombre_usuario">Nombre Usuario</label>
+        <input class="form-control" type="text" name="nombre_usuario_edit" id="nombre_usuario_edit" value="{{ usuario }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="contraseña_empleado">Contraseña</label>
+        <input class="form-control" type="password" name="contraseña_empleado_edit" id="contraseña_empleado_edit" value="{{ contraseña }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="cargo_empleado">Cargo Empleado</label>
+        <input class="form-control" type="text" name="cargo_empleado_edit" id="cargo_empleado_edit" value="{{ cargo }}">
+        </div>
+        <br>
+        
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Editar">
+            <a class="btn btn-primary"  href="{% url 'listar_empleados' %}" type="button">Volver</a>
+        </div>
+    </form>
+    </div>
+
+
+
+</main>
+
+
+
+
+
+</body>
+</html>
