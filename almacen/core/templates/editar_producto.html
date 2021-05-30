@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    <title>Editar Empleados</title>
+</head>
+<body>
+    
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="#">Venta</a></li>
+                    <li><a href="#">PagarFiado</a></li>
+                    <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
+                    <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                    <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                    <li><a href="#">Perfil</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="main">
+
+    
+    
+        <a href="{% url 'productos' %}" class="btn btn-dark"> Listar Producto</a>
+        
+        <h2>Editar Producto {{ nombre }}</h2>
+        <div class="contenedor">
+        <form method="POST">
+        
+        
+        {% csrf_token %}
+
+        <input type="text" name="id_editando" id="id_editando" hidden 
+        value="{{ id }}">
+        <div class="form-group">
+        <label for="familia_producto_edit">familia producto</label>
+        <input class="form-control" type="text" name="familia_producto_edit" id="familia_producto_edit" 
+        value="{{ familia }}">
+        </div>
+        <br>
+        <div class="form-group">
+        <label for="fecha_vencimiento_edit">fecha_vencimiento</label>
+        <input class="form-control" type="date" name="fecha_vencimiento_edit" id="fecha_vencimiento_edit" 
+        value="{{ vencimiento }}" required>
+        </div>
+        <br>
+        <div class="form-group">
+        <label for="tipo_producto_edit">tipo_producto</label>
+        <input class="form-control" type="text" name="tipo_producto_edit" id="tipo_producto_edit" 
+        value="{{ tipo }}">
+        </div>
+        <br>
+        <div class="form-group">
+        <label for="descripcion_edit">descripcion</label>
+        <input class="form-control" type="text" name="descripcion_edit" id="descripcion_edit" 
+        value="{{ descripcion }}">
+        </div>
+        <br>
+        <div class="form-group">
+        <label for="precio_edit">precio </label>
+        <input class="form-control" type="number" name="precio_edit" id="precio_edit" 
+        value="{{ precio }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="nombre_producto_edit">nombre_producto</label>
+        <input class="form-control" type="text" name="nombre_producto_edit" id="nombre_producto_edit" 
+        value="{{ nombre }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="marca_producto_edit">marca_producto</label>
+        <input class="form-control" type="text" name="marca_producto_edit" id="marca_producto_edit" 
+        value="{{ marca }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="stock_edit">stock</label>
+        <input class="form-control" type="number" name="stock_edit" id="stock_edit" 
+        value="{{ stock }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="stock_critico_edit">stock_critico</label>
+        <input class="form-control" type="number" name="stock_critico_edit" id="stock_critico_edit" 
+        value="{{ critico }}">
+        </div>
+        <br>
+        
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" 
+            value="Editar">
+            <a class="btn btn-primary"  href="{% url 'productos' %}" type="button">Volver</a>
+        </div>
+    </form>
+    </div>
+
+
+
+</main>
+
+
+
+
+
+</body>
+</html>

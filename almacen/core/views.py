@@ -59,15 +59,79 @@ def add_producto(FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION
     return salida.getvalue()
 
 
-"""def agregar_producto(familia_producto, fecha_vencimiento,tipo_producto,descripcion,
-precio,nombre_producto,marca_producto,stock,stock_critico):
+def modificarProducto(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_PRODUCTO", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    id = lista[0][0]
+    familia = lista[0][1]
+    vencimiento = lista[0][2]
+    tipo = lista[0][3]
+    descripcion = lista[0][4]
+    precio = lista[0][5]
+    nombre = lista[0][6]
+    marca = lista[0][7]
+    stock = lista[0][8]
+    critico = lista[0][9]
+    
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        FAMILIA_PRODUCTO = request.POST.get('familia_producto_edit')
+        FECHA_VENCIMIENTO = request.POST.get('fecha_vencimiento_edit')
+        TIPO_PRODUCTO = request.POST.get('tipo_producto_edit')
+        DESCRIPCION = request.POST.get('descripcion_edit')
+        PRECIO = request.POST.get('precio_edit')
+        NOMBRE_PRODUCTO = request.POST.get('nombre_producto_edit')
+        MARCA_PRODUCTO = request.POST.get('marca_producto_edit')
+        STOCK = request.POST.get('stock_edit')
+        STOCK_CRITICO = request.POST.get('stock_critico_edit')
+        salida = modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
+                              PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO)
+
+    return render(request, 'editar_producto.html', {
+        "Listado": lista,
+        "id": id,
+        "familia" : familia,
+        "vencimiento": vencimiento,
+        "tipo": tipo,
+        "descripcion": descripcion,
+        "precio": precio,
+        "nombre": nombre,
+        "marca": marca,
+        "stock": stock,
+        "critico": critico,
+    })
+
+
+def modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
+                              PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_PRODUCTO',[familia_producto, fecha_vencimiento,tipo_producto,descripcion,
-precio,nombre_producto,marca_producto,stock,stock_critico,salida])
+    cursor.callproc('SP_MODIFICAR_PRODUCTO', [
+                    id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
+                              PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, salida])
+    return salida.getvalue()
 
-    return salida.getvalue() """
+
+def eliminarProducto(request, idProducto):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_PRODUCTO', [idProducto,  salida])
+    data = {
+        'productos': lista_productos(),
+    }
+    return render(request, 'listar_productos.html', data)
+
 
 
 # --------- CRUD EMPLEDOS ------------

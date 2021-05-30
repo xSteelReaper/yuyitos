@@ -52,6 +52,61 @@ v_salida:
 end;
 
 
+create or replace procedure sp_modificar_producto
+(id_modificando number,
+v_familia_producto varchar2,
+v_fecha_vencimiento DATE,
+v_tipo_producto varchar2,
+v_descripcion	varchar2,
+v_precio NUMBER,
+v_nombre_producto varchar2,
+v_marca_producto varchar2,
+v_stock NUMBER,
+v_stock_critico NUMBER,v_salida out number
+)is
+begin
+    UPDATE core_producto set FAMILIA_PRODUCTO = v_familia_producto,
+FECHA_VENCIMIENTO=v_fecha_vencimiento,
+TIPO_PRODUCTO=v_tipo_producto,
+DESCRIPCION=v_descripcion,
+PRECIO=v_precio,
+NOMBRE_PRODUCTO=v_nombre_producto,
+MARCA_PRODUCTO=v_marca_producto,
+STOCK=v_stock,
+STOCK_CRITICO=v_stock_critico
+    where id = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+end;
+
+create or replace procedure SP_TRAER_DATOS_PRODUCTO (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM core_producto where id_producto = idN;
+end;
+
+
+CREATE OR REPLACE PROCEDURE SP_ELIMINAR_PRODUCTO (idProducto number, v_salida out number)
+IS
+BEGIN
+    DELETE FROM core_producto where id_producto = idProducto;
+    commit;
+    v_salida:=1;
+
+    exception
+
+    when others then
+v_salida:=0;
+
+END;
+
+
 --------procedimientos proveedor-------------
 
 create or replace procedure sp_listar_proveedores(proveedores out SYS_REFCURSOR)

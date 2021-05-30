@@ -3,7 +3,9 @@ from .views import *
 
 urlpatterns = [
     path('',productos, name ='productos'),
-    path('agregarProducto',agregarProducto, name ='agregar_producto'),       
+    path('agregarProducto',agregarProducto, name ='agregar_producto'),
+    path('modificarProductos/<int:id>',modificarProducto, name ='editar_producto'),
+    path('eliminarProducto/<int:idProducto>', eliminarProducto, name='eliminar_producto' ),      
     path('empleado', empleados, name = 'listar_empleados'),
     path('agregarEmpleado', agregarempleados, name= 'agregar_empleados'),
     path('modificarEmpleado/<int:id>', modificarEmpleado, name='modificar_empleado' ),
