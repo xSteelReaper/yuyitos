@@ -15,6 +15,8 @@ urlpatterns = [
     path('eliminarCliente/<int:idCliente>', eliminarCliente, name='eliminar_cliente' ),
     path('agregarProveedores', agregarproveedores, name = 'agregar_proveedores'),
     path('listarorden', ordenes, name='listar_ordenes'),
-    path('agregarOrden', agregar_ordenes, name='agregar_ordenes')
+    path('agregarOrden', agregar_ordenes, name='agregar_ordenes'),
+    path('modificarPedido/<int:id>', modificarPedido, name='modificar_pedido' ),
+    path('eliminarPedido/<int:idPedido>', eliminarPedido, name='eliminar_pedido' )
 ]
 

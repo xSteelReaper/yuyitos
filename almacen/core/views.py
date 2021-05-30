@@ -464,3 +464,74 @@ def agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDID
     cursor.callproc('SP_AGREGAR_ORDENES', [CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
                                            FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION, salida])
     return salida.getvalue()
+
+
+
+def modificarPedido(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_PEDIDO", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    
+    id = lista[0][0]
+    cantidad = lista[0][1]
+    precio_unitario = lista[0][2]
+    precio_total = lista[0][3]
+    fecha_pedido = lista[0][4]
+    fecha_entrega = lista[0][5]
+    estado = lista[0][6]
+    descripcion = lista[0][9]
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        CANTIDAD_PRODUCTOS = request.POST.get('cantidad_productos_edit')
+        PRECIO_UNITARIO = request.POST.get('precio_unitario_edit')
+        PRECIO_TOTAL = request.POST.get('precio_total_edit')
+        FECHA_PEDIDO = request.POST.get('fecha_pedido_edit')
+        FECHA_ENTREGA = request.POST.get('fecha_entrega_edit')
+        ESTADO = request.POST.get('estado_edit')
+        DESCRIPCION = request.POST.get('descripcion_edit')
+        salida = modificar_pedido(id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, DESCRIPCION)
+        
+    return render(request, 'editar_pedidos.html', {
+        "Listado" : lista,
+        "id" : id,
+        "cantidad" : cantidad,
+        "precio_unitario" : precio_unitario,
+        "precio_total" : precio_total,
+        "fecha_pedido" : fecha_pedido,
+        "fecha_entrega" : fecha_entrega,
+        "estado" : estado,
+        "descripcion" : descripcion,
+    })
+    
+def modificar_pedido(id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, DESCRIPCION):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_PEDIDOS', [
+                    id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, DESCRIPCION, salida])
+    return salida.getvalue()
+
+
+
+
+
+
+def eliminarPedido(request, idPedido):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_PEDIDO', [idPedido,  salida])
+    data = {
+        'ordenes': listado_ordenes()
+    }
+    return render(request, 'listar_ordenes.html', data)

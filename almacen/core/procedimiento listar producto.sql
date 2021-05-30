@@ -331,3 +331,59 @@ BEGIN
         v_salida:=0;
     
 END;
+
+
+CREATE OR REPLACE PROCEDURE SP_ELIMINAR_PEDIDO (idPedido number, v_salida out number)
+IS
+BEGIN
+    DELETE FROM CORE_ORDEN_PEDIDO where id_orden_pedido = idPedido;
+    commit;
+    v_salida:=1;
+
+    exception
+
+    when others then
+v_salida:=0;
+
+END;
+
+
+create or replace procedure SP_MODIFICAR_EMPLEADO(
+id_modificando number, 
+v_CANTIDAD_PRODUCTOS number,
+v_PRECIO_UNITARIO number,
+v_PRECIO_TOTAL number,
+v_FECHA_PEDIDO date,
+v_FECHA_ENTREGA date,
+v_ESTADO number,
+v_DESCRIPCION NVARCHAR2,
+v_salida out number
+)is
+begin
+    UPDATE CORE_ORDEN_PEDIDO set CANTIDAD_PRODUCTOS = v_CANTIDAD_PRODUCTOS,
+    PRECIO_UNITARIO = v_PRECIO_UNITARIO,
+    PRECIO_TOTAL = v_PRECIO_TOTAL, 
+    FECHA_PEDIDO = v_FECHA_PEDIDO,
+    FECHA_ENTREGA = v_FECHA_ENTREGA,
+    ESTADO = v_ESTADO,
+    DESCRIPCION = v_DESCRIPCION  
+    
+    where ID_ORDEN_PEDIDO = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+
+end;
+
+
+
+create or replace procedure SP_TRAER_DATOS_PEDIDO (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM CORE_ORDEN_PEDIDO where ID_ORDEN_PEDIDO = idN;
+end;
