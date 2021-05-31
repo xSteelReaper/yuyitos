@@ -5,10 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    
-    <title>Gestión de Proveedores</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    <title>Listar Proveedores</title>
 </head>
 <body>
     
@@ -26,7 +32,6 @@
                     <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
                     <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
                     <li><a href="#">Perfil</a></li>
-
                 </ul>
             </nav>
         </div>
@@ -43,6 +48,7 @@
                     <th>Nombre Empresa</th>
                     <th>Nombre Proveedor</th>
                     <th>Telefono Proveedor</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>            
             {% for p in proveedores %}
@@ -52,6 +58,11 @@
                 <td>{{ p.2 }}</td>
                 <td>{{ p.3 }}</td>
                 <td>{{ p.4 }}</td>
+                <td>{{ p.5 }}</td>
+                <td>
+                    <a type="button" href="{% url 'modificar_proveedores' id=e.0 %}" class="btn btn-warning"><i class="fa fa-pencil"> Editar</i></a>
+                    <a type="button" href="{% url 'eliminar_proveedores' idProveedor=e.0 %}" class="btn btn-danger"><i class="fa fa-trash"> Eliminar</i></a>
+                </td> 
             </tr>
             {% endfor %}
         </table>

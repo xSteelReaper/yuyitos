@@ -34,11 +34,11 @@
 
 <main class="main">
 
-
+<h2>Listado de Productos</h2>
 <table class="table">
 <thead class="thead-dark">
         <tr>
-            <th>id producto</th>
+            <th>Id producto</th>
             <th>Grupo Producto</th>
             <th>Vencimiento</th>
             <th>Tipo producto</th>
@@ -48,9 +48,10 @@
             <th>Marca producto</th>
             <th>Cantidad</th>
             <th>Stock critico</th>
+            <th>Acciones</th>
         </tr>
     </thead>
-        {% for p in empleados %}
+        {% for p in productos %}
             
             <tr>
             <td>{{ p.0 }}</td>
@@ -63,6 +64,10 @@
             <td>{{ p.7 }}</td>
             <td>{{ p.8 }}</td>
             <td>{{ p.9 }}</td>
+            <td>
+                    <a type="button" href="{% url 'editar_producto' id=p.0 %}" class="btn btn-warning"><i class="fa fa-pencil"> Editar</i></a>
+                    <a type="button" href="{% url 'eliminar_producto' idProducto=p.0 %}" class="btn btn-danger"><i class="fa fa-trash"> Eliminar</i></a>
+                </td>  
             </tr>            
             
         {% endfor %}

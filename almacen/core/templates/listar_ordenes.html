@@ -54,9 +54,10 @@
             <th>Fecha pedido</th>
             <th>Fecha entrega</th>
             <th>Estado</th>
-            <th>ID Empleado a cargo</th>
+            <th>ID Empleado</th>
             <th>ID Proveedor</th>
             <th>Descripcion</th>
+            <th>Acciones</th>
             
         </tr>
         </thead>
@@ -72,6 +73,11 @@
                 <td>{{ o.7 }}</td>
                 <td>{{ o.8 }}</td>
                 <td>{{ o.9 }}</td>
+                <td>
+                    <a type="button" href="{% url 'modificar_pedido' id=o.0 %}" class="btn btn-warning"><i class="fa fa-pencil"> Editar</i></a>
+                    <a type="button" href="{% url 'eliminar_pedido' idPedido=o.0 %}" class="btn btn-danger"><i class="fa fa-trash"> Eliminar</i></a>
+
+                </td>
                 
 
             </tr>            

@@ -15,8 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
-
-    <title>Agregar Orden de Pedido</title>
+    <title>Editar Pedidos</title>
 </head>
 <body>
     
@@ -41,86 +40,76 @@
     </header>
 
 
+    <main class="main">
 
-<main class="main">
-
-    <a href="{% url 'listar_ordenes' %}" class="btn btn-dark"> Listar Ordenes</a>
-
-    <h2>Registro de Ordenes de Pedido</h2>
-    <div class="contenedor">
-    <form action="" method="post">
+    
+    
+        <a href="{% url 'listar_ordenes' %}" class="btn btn-dark"> Listar Pedidos</a>
+        
+        <h2>Editar Pedido</h2>
+        <div class="contenedor">
+        <form method="POST">
+        
+        
         {% csrf_token %}
 
+        <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">
         <div class="form-group">
         <label for="cantidad_productos">Cantidad productos</label>
-        <input class="form-control" type="number" name="cantidad_productos" id="cantidad_productos">
+        <input class="form-control" type="number" name="cantidad_productos_edit" id="cantidad_productos_edit" value="{{ cantidad }}">
         </div>
         <br>
         
         <div class="form-group">
         <label for="precio_unitario">Precio unitario</label>
-        <input class="form-control" type="number" name="precio_unitario" id="precio_unitario">
+        <input class="form-control" type="number" name="precio_unitario_edit" id="precio_unitario_edit" value="{{ precio_unitario }}">
         </div>
         <br>
         
         <div class="form-group">
         <label for="precio_total">Precio Total</label>
-        <input class="form-control" type="number" name="precio_total" id="precio_total">
+        <input class="form-control" type="number" name="precio_total_edit" id="precio_total_edit" value="{{ precio_total }}">
         </div>
         <br>
         
         <div class="form-group">
         <label for="fecha_pedido">Fecha Pedido</label>
-        <input class="form-control" type="date" name="fecha_pedido" id="fecha_pedido">
+        <input class="form-control" type="date" name="fecha_pedido_edit" id="fecha_pedido_edit" value="{{ fecha_pedido }}" required>
         </div>
         <br>
         
         <div class="form-group">
         <label for="fecha_entrega">Fecha Entrega</label>
-        <input class="form-control" type="date" name="fecha_entrega" id="fecha_entrega">
+        <input class="form-control" type="date" name="fecha_entrega_edit" id="fecha_entrega_edit" value="{{ fecha_entrega }}" required>
         </div>
         <br>
         
         <div class="form-group">
         <label for="estado">Estado</label>
-        <input class="form-control" type="number" name="estado" id="estado">
-        </div>
-        <br>
-        
-        <div class="form-group">
-        <label for="empleado">Empleado</label>
-        <select class="form-control" name="empleado" id="empleado">
-            <option value="">Seleccionar</option>
-            {% for e in empleados %}
-                <option value="{{ e.0 }}">{{ e.2 }}</option>
-            {% endfor %}
-        </select>
-        </div>
-        <br>
-        
-        <div class="form-group">
-        <label for="proveedor">Proveedor</label>
-        <select class="form-control" name="proveedor" id="proveedor">
-            <option value="">Seleccionar</option>
-            {% for p in proveedores %}
-                <option value="{{ p.0 }}">{{ p.2 }}</option>
-            {% endfor %}
-        </select>
+        <input class="form-control" type="number" name="estado_edit" id="estado_edit" value="{{ estado }}">
         </div>
         <br>
         
         <div class="form-group">
         <label for="descripcion">Descripcion</label>
-        <input class="form-control" type="text" name="descripcion" id="descripcion">
+        <input class="form-control" type="text" name="descripcion_edit" id="descripcion_edit" value="{{ descripcion }}">
         </div>
         <br>
-
-
-        <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
+        
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Editar">
+            <a class="btn btn-primary"  href="{% url 'listar_ordenes' %}" type="button">Volver</a>
+        </div>
     </form>
     </div>
 
+
+
 </main>
+
+
+
+
 
 </body>
 </html>

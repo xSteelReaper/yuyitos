@@ -60,15 +60,79 @@ def add_producto(FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION
     return salida.getvalue()
 
 
-"""def agregar_producto(familia_producto, fecha_vencimiento,tipo_producto,descripcion,
-precio,nombre_producto,marca_producto,stock,stock_critico):
+def modificarProducto(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_PRODUCTO", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    id = lista[0][0]
+    familia = lista[0][1]
+    vencimiento = lista[0][2]
+    tipo = lista[0][3]
+    descripcion = lista[0][4]
+    precio = lista[0][5]
+    nombre = lista[0][6]
+    marca = lista[0][7]
+    stock = lista[0][8]
+    critico = lista[0][9]
+    
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        FAMILIA_PRODUCTO = request.POST.get('familia_producto_edit')
+        FECHA_VENCIMIENTO = request.POST.get('fecha_vencimiento_edit')
+        TIPO_PRODUCTO = request.POST.get('tipo_producto_edit')
+        DESCRIPCION = request.POST.get('descripcion_edit')
+        PRECIO = request.POST.get('precio_edit')
+        NOMBRE_PRODUCTO = request.POST.get('nombre_producto_edit')
+        MARCA_PRODUCTO = request.POST.get('marca_producto_edit')
+        STOCK = request.POST.get('stock_edit')
+        STOCK_CRITICO = request.POST.get('stock_critico_edit')
+        salida = modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
+                              PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO)
+
+    return render(request, 'editar_producto.html', {
+        "Listado": lista,
+        "id": id,
+        "familia" : familia,
+        "vencimiento": vencimiento,
+        "tipo": tipo,
+        "descripcion": descripcion,
+        "precio": precio,
+        "nombre": nombre,
+        "marca": marca,
+        "stock": stock,
+        "critico": critico,
+    })
+
+
+def modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
+                              PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_PRODUCTO',[familia_producto, fecha_vencimiento,tipo_producto,descripcion,
-precio,nombre_producto,marca_producto,stock,stock_critico,salida])
+    cursor.callproc('SP_MODIFICAR_PRODUCTO', [
+                    id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
+                              PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, salida])
+    return salida.getvalue()
 
-    return salida.getvalue() """
+
+def eliminarProducto(request, idProducto):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_PRODUCTO', [idProducto,  salida])
+    data = {
+        'productos': lista_productos(),
+    }
+    return render(request, 'listar_productos.html', data)
+
 
 
 # --------- CRUD EMPLEDOS ------------
@@ -198,33 +262,19 @@ def eliminarEmpleado(request, idEmpleado):
     return render(request, 'listar_empleados.html', data)
 
 
-
-
-
-
-#  LO HIZO SALOMOON
-
-
+#  CRUD PROVEEDORES
 def proveedores(request):
-
     data = {
         'proveedores': listado_proveedores()
     }
-
-    # agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
-
     '''if salida == 1:
         data['mensaje'] = 'Agregado Correctamente'
         data['productos'] = listado_proveedores()
     else:
-        data['mensaje'] = 'No se ha podido guardar' 
-    '''
-    #agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
+        data['mensaje'] = 'No se ha podido guardar'     '''
     return render(request, 'listar_proveedores.html', data)
 
-
 def agregarproveedores(request):
-
     if request.method == 'POST':
         rubro_empresa = request.POST.get('Rubro Empresa')
         nombre_empresa = request.POST.get('Nombre Empresa')
@@ -245,7 +295,6 @@ def agregarproveedores(request):
 
     return render(request, 'agregar_proveedores.html')
 
-
 def listado_proveedores():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -259,7 +308,6 @@ def listado_proveedores():
 
     return lista
 
-
 def agregar_proveedor(rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -268,6 +316,57 @@ def agregar_proveedor(rubro_empresa, nombre_empresa, nombre_proveedor, telefono_
                     rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor, salida])
     return salida.getvalue()
 
+def modificarProveedores(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_PROVEEDORES", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    
+    id = lista[0][0]
+    rubroEmpresa = lista[0][1]
+    nombreEmpresa = lista[0][2]
+    nombreProveedor = lista[0][3]
+    telefonoProveedor = lista[0][4]
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        RUBRO_EMPRESA = request.POST.get('rubro_empresa_edit')
+        NOMBRE_EMPRESA = request.POST.get('nombre_empresa_edit')
+        NOMBRE_PROVEEDOR = request.POST.get('nombre_proveedor_edit')
+        TELEFONO_PROVEEDOR = request.POST.get('telefono_proveedor_edit')
+        salida = modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR)
+        
+    return render(request, 'editar_proveedores.html', {
+        "Listado" : lista,
+        "id" : id,
+        "rubro empresa" : rubroEmpresa,
+        "nombre empresa" : nombreEmpresa,
+        "nombre proveedor" : nombreProveedor,
+        "telefono proveedor" : telefonoProveedor
+    })
+    
+def modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_PROVEEDORES', [
+                    id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR, salida])
+    return salida.getvalue()
+
+def eliminarProveedores(request, idProveedor):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_PROVEEDORES', [idProveedor,  salida])
+    data = {
+        'proveedores': listado_proveedores()
+    }
+    return render(request, 'listar_proveedores.html', data)
 
 # ----------------------------  felipe listar
 
@@ -474,3 +573,74 @@ def agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDID
     cursor.callproc('SP_AGREGAR_ORDENES', [CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
                                            FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION, salida])
     return salida.getvalue()
+
+
+
+def modificarPedido(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_PEDIDO", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    
+    id = lista[0][0]
+    cantidad = lista[0][1]
+    precio_unitario = lista[0][2]
+    precio_total = lista[0][3]
+    fecha_pedido = lista[0][4]
+    fecha_entrega = lista[0][5]
+    estado = lista[0][6]
+    descripcion = lista[0][9]
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        CANTIDAD_PRODUCTOS = request.POST.get('cantidad_productos_edit')
+        PRECIO_UNITARIO = request.POST.get('precio_unitario_edit')
+        PRECIO_TOTAL = request.POST.get('precio_total_edit')
+        FECHA_PEDIDO = request.POST.get('fecha_pedido_edit')
+        FECHA_ENTREGA = request.POST.get('fecha_entrega_edit')
+        ESTADO = request.POST.get('estado_edit')
+        DESCRIPCION = request.POST.get('descripcion_edit')
+        salida = modificar_pedido(id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, DESCRIPCION)
+        
+    return render(request, 'editar_pedidos.html', {
+        "Listado" : lista,
+        "id" : id,
+        "cantidad" : cantidad,
+        "precio_unitario" : precio_unitario,
+        "precio_total" : precio_total,
+        "fecha_pedido" : fecha_pedido,
+        "fecha_entrega" : fecha_entrega,
+        "estado" : estado,
+        "descripcion" : descripcion,
+    })
+    
+def modificar_pedido(id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, DESCRIPCION):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_PEDIDOS', [
+                    id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
+                               FECHA_ENTREGA, ESTADO, DESCRIPCION, salida])
+    return salida.getvalue()
+
+
+
+
+
+
+def eliminarPedido(request, idPedido):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_PEDIDO', [idPedido,  salida])
+    data = {
+        'ordenes': listado_ordenes()
+    }
+    return render(request, 'listar_ordenes.html', data)

@@ -52,26 +52,78 @@ v_salida:
 end;
 
 
+create or replace procedure sp_modificar_producto
+(id_modificando number,
+v_familia_producto varchar2,
+v_fecha_vencimiento DATE,
+v_tipo_producto varchar2,
+v_descripcion	varchar2,
+v_precio NUMBER,
+v_nombre_producto varchar2,
+v_marca_producto varchar2,
+v_stock NUMBER,
+v_stock_critico NUMBER,v_salida out number
+)is
+begin
+    UPDATE core_producto set FAMILIA_PRODUCTO = v_familia_producto,
+FECHA_VENCIMIENTO=v_fecha_vencimiento,
+TIPO_PRODUCTO=v_tipo_producto,
+DESCRIPCION=v_descripcion,
+PRECIO=v_precio,
+NOMBRE_PRODUCTO=v_nombre_producto,
+MARCA_PRODUCTO=v_marca_producto,
+STOCK=v_stock,
+STOCK_CRITICO=v_stock_critico
+    where id = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+end;
+
+create or replace procedure SP_TRAER_DATOS_PRODUCTO (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM core_producto where id_producto = idN;
+end;
+
+
+CREATE OR REPLACE PROCEDURE SP_ELIMINAR_PRODUCTO (idProducto number, v_salida out number)
+IS
+BEGIN
+    DELETE FROM core_producto where id_producto = idProducto;
+    commit;
+    v_salida:=1;
+
+    exception
+
+    when others then
+v_salida:=0;
+
+END;
+
+
 --------procedimientos proveedor-------------
 
 create or replace procedure sp_listar_proveedores(proveedores out SYS_REFCURSOR)
 IS
-
 BEGIN
-
     OPEN proveedores
     for
     select *
     from core_proveedor;
 END;
 
-create or replace procedure sp_agregar_proveedor (
+create or replace procedure sp_agregar_proveedor(
     v_rubroEmpresa varchar2,
     v_nombreEmpresa varchar2,
     v_nombreProveedor varchar2,
     v_telefonoProveedor varchar2,
-    v_salida out number
-)
+    v_salida out number)
 IS
 BEGIN
     insert into core_proveedor
@@ -87,6 +139,52 @@ exception
 v_salida:
 = 0;
 END;
+
+create or replace procedure SP_MODIFICAR_PROVEEDORES(
+    id_modificando number, 
+    v_rubroEmpresa varchar2,
+    v_nombreEmpresa varchar2,
+    v_nombreProveedor varchar2, 
+    v_telefonoProveedor varchar2, 
+    v_salida out number)
+is
+begin
+    UPDATE CORE_PROVEEDOR 
+        SET rubro_empresa = v_rubroEmpresa,
+            nombre_empresa = v_nombreEmpresa,
+            nombre_proveedor = v_nombreProveedor, 
+            telefono_proveedor = v_telefonoProveedor
+    where id = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+
+end;
+
+create or replace procedure SP_TRAER_DATOS_PROVEEDORES (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM core_proveedor where id = idN;
+end;
+
+create or replace procedure SP_ELIMINAR_PROVEEDORES (idProveedor NUMBER, v_salida out number
+)
+IS
+begin
+    DELETE FROM core_proveedor where id = idProveedor;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+end;
 
 ------------Procedimientos Cliente fiado----------------------
 
@@ -145,7 +243,8 @@ begin
     SELECT * FROM core_cliente_fiado where id = idN;
 end;
 
-create or replace procedure SP_MODIFICAR_CLIENTE_FIADO(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
+create or replace procedure SP_MODIFICAR_CLIENTE_FIADO
+(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
 v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_monto_total_deuda NUMBER, v_salida out number
 )is
 begin
@@ -331,3 +430,57 @@ BEGIN
         v_salida:=0;
     
 END;
+
+
+CREATE OR REPLACE PROCEDURE SP_ELIMINAR_PEDIDO (idPedido number, v_salida out number)
+IS
+BEGIN
+    DELETE FROM CORE_ORDEN_PEDIDO where id_orden_pedido = idPedido;
+    commit;
+    v_salida:=1;
+
+    exception
+
+    when others then
+v_salida:=0;
+
+END;
+
+
+create or replace procedure SP_MODIFICAR_EMPLEADO(
+id_modificando number, 
+v_CANTIDAD_PRODUCTOS number,
+v_PRECIO_UNITARIO number,
+v_PRECIO_TOTAL number,
+v_FECHA_PEDIDO date,
+v_FECHA_ENTREGA date,
+v_ESTADO number,
+v_DESCRIPCION NVARCHAR2,
+v_salida out number
+)is
+begin
+    UPDATE CORE_ORDEN_PEDIDO set CANTIDAD_PRODUCTOS = v_CANTIDAD_PRODUCTOS,
+    PRECIO_UNITARIO = v_PRECIO_UNITARIO,
+    PRECIO_TOTAL = v_PRECIO_TOTAL, 
+    FECHA_PEDIDO = v_FECHA_PEDIDO,
+    FECHA_ENTREGA = v_FECHA_ENTREGA,
+    ESTADO = v_ESTADO,
+    DESCRIPCION = v_DESCRIPCION  
+    
+    where ID_ORDEN_PEDIDO = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+
+end;
+
+create or replace procedure SP_TRAER_DATOS_PEDIDO (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM CORE_ORDEN_PEDIDO where ID_ORDEN_PEDIDO = idN;
+end;

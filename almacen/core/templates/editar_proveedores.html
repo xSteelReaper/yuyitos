@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static  %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -13,10 +14,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <title>Agregar Proveedores</title>
-</head>
 
-<body>
+    <title>Editar Provedores</title>
+</head>
+<body>  
     <header class="header">
         <div class="container logo-nav-container">
             <a href="#" class="logo">YUYITOS</a>
@@ -37,39 +38,46 @@
     </header>
 
     <main class="main">
-
         <a href="{% url 'listar_proveedores' %}" class="btn btn-dark"> Listar Proveedores</a>
-        <h2>Registro de Proveedores</h2>
+        
+        <h2>Proveedor {{ nombre }}</h2>
         <div class="contenedor">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="">Rubro Empresa</label>
-                    <input class="form-control" type="text" name="Rubro Empresa">
-                </div>
-                <br>
+        <form method="POST">
+        
+        {% csrf_token %}
 
-                <div class="form-group">
-                    <label for="">Nombre Empresa</label>
-                    <input class="form-control" type="text" name="Nombre Empresa">
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="">Nombre Proveedor</label>
-                    <input class="form-control" type="text" name="Nombre Proveedor">
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="">Telefono Proveedor</label>
-                    <input class="form-control" type="text" name="Telefono Proveedor">
-                </div>
-                <br>
-
-                <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
-            </form>        
+        <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">
+        <div class="form-group">
+        <label for="rubro_empresa">Rubro Empresa</label>
+        <input class="form-control" type="text" name="rubro_empresa_edit" id="rubro_empresa_edit" value="{{ rubro empresa }}">
         </div>
-    </main>
+        <br>
+
+        <div class="form-group">
+            <label for="nombre_empresa">Nombre Empresa</label>
+            <input class="form-control" type="text" name="nombre_empresa_edit" id="nombre_empresa_edit" value="{{ nombre empresa }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="nombre_proveedor">Nombre Proveedor</label>
+            <input class="form-control" type="text" name="nombre_proveedor_edit" id="nombre_proveedor_edit" value="{{ nombre proveedor }}">
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="telefono_proveedor">Teléfono Proveedor</label>
+            <input class="form-control" type="text" name="telefono_proveedor_edit" id="telefono_proveedor_edit" value="{{ telefono proveedor }}">
+        </div>
+        <br>
+        
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Editar">
+            <a class="btn btn-primary"  href="{% url 'listar_proveedores' %}" type="button">Volver</a>
+        </div>
+    </form>
+    </div>
+</main>
+
 </body>
 </html>
