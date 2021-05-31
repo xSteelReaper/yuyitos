@@ -43,10 +43,13 @@ def agregarProducto(request):
         stock_critico = request.POST.get('stock_critico')
         salida = add_producto(familia_producto, fecha_vencimiento, tipo_producto, descripcion,
                               precio, nombre_producto, marca_producto, stock, stock_critico)
-        """if salida == 1:
-            data['mensaje'] = 'agregado correctamente'
+        if salida == 1:
+            # data['mensaje'] = 'Agregado Correctamente'
+            messages.success(request, "Agregado correctamente")
+            
         else:
-            data['mensaje'] = 'no se ha podido guardar'"""
+            # data['mensaje'] = 'No se ha podido guardar'
+            messages.success(request, "No se pudo agregar")
 
     return render(request, 'agregar_producto.html')
 
@@ -96,6 +99,7 @@ def modificarProducto(request, id):
         STOCK_CRITICO = request.POST.get('stock_critico_edit')
         salida = modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION,
                               PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO)
+        messages.success(request, "modificado correctamente")
 
     return render(request, 'editar_producto.html', {
         "Listado": lista,
@@ -131,6 +135,9 @@ def eliminarProducto(request, idProducto):
     data = {
         'productos': lista_productos(),
     }
+    
+    messages.success(request, "eliminado correctamente")
+    
     return render(request, 'listar_productos.html', data)
 
 
@@ -171,6 +178,14 @@ def agregarempleados(request):
         CARGO_EMPLEADO = request.POST.get('cargo_empleado')
         salida = agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
                                   NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+        
+        if salida == 1:
+            # data['mensaje'] = 'Agregado Correctamente'
+            messages.success(request, "Agregado correctamente")
+            
+        else:
+            # data['mensaje'] = 'No se ha podido guardar'
+            messages.success(request, "No se pudo agregar")
 
     return render(request, 'agregar_empleados.html')
 
@@ -216,6 +231,7 @@ def modificarEmpleado(request, id):
         CARGO_EMPLEADO = request.POST.get('cargo_empleado_edit')
         salida = modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
                                   NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+        messages.success(request, "modificado correctamente")
         
     return render(request, 'editar_empleados.html', {
         "Listado" : lista,
@@ -243,22 +259,17 @@ def modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_
 
 
 
-
-
-
-
-
-
-
-
 def eliminarEmpleado(request, idEmpleado):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_ELIMINAR_EMPLEADO', [idEmpleado,  salida])
     data = {
-        'empleados': listado_empleados()
+        'empleados': listado_empleados(),
     }
+    
+    messages.success(request, "eliminado correctamente")
+    
     return render(request, 'listar_empleados.html', data)
 
 
@@ -292,6 +303,13 @@ def agregarproveedores(request):
 
     # salida = agregar_proveedor(
     #     rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor)
+        if salida == 1:
+            # data['mensaje'] = 'Agregado Correctamente'
+            messages.success(request, "Agregado correctamente")
+            
+        else:
+            # data['mensaje'] = 'No se ha podido guardar'
+            messages.success(request, "No se pudo agregar")
 
     return render(request, 'agregar_proveedores.html')
 
@@ -340,14 +358,15 @@ def modificarProveedores(request, id):
         NOMBRE_PROVEEDOR = request.POST.get('nombre_proveedor_edit')
         TELEFONO_PROVEEDOR = request.POST.get('telefono_proveedor_edit')
         salida = modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR)
+        messages.success(request, "modificado correctamente")
         
     return render(request, 'editar_proveedores.html', {
         "Listado" : lista,
         "id" : id,
-        "rubro empresa" : rubroEmpresa,
-        "nombre empresa" : nombreEmpresa,
-        "nombre proveedor" : nombreProveedor,
-        "telefono proveedor" : telefonoProveedor
+        "rubroEmpresa" : rubroEmpresa,
+        "nombreEmpresa" : nombreEmpresa,
+        "nombreProveedor" : nombreProveedor,
+        "telefonoProveedor" : telefonoProveedor
     })
     
 def modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR):
@@ -364,8 +383,11 @@ def eliminarProveedores(request, idProveedor):
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_ELIMINAR_PROVEEDORES', [idProveedor,  salida])
     data = {
-        'proveedores': listado_proveedores()
+        'proveedores': listado_proveedores(),
     }
+    
+    messages.success(request, "eliminado correctamente")
+    
     return render(request, 'listar_proveedores.html', data)
 
 # ----------------------------  felipe listar
@@ -557,10 +579,12 @@ def agregar_ordenes(request):
                                FECHA_ENTREGA, ESTADO, EMPLEADO_RUT_EMPLEADO_ID, PROVEEDOR_ID_PROVEEDOR_ID, DESCRIPCION)
 
         if salida == 1:
-            data['mensaje'] = 'Agregado Correctamente'
-            data['productos'] = listado_proveedores()
+            # data['mensaje'] = 'Agregado Correctamente'
+            messages.success(request, "Agregado correctamente")
+            
         else:
-            data['mensaje'] = 'No se ha podido guardar'
+            # data['mensaje'] = 'No se ha podido guardar'
+            messages.success(request, "No se pudo agregar")
 
     return render(request, 'agregar_orden_pedido.html', data)
 
@@ -607,6 +631,7 @@ def modificarPedido(request, id):
         DESCRIPCION = request.POST.get('descripcion_edit')
         salida = modificar_pedido(id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDIDO,
                                FECHA_ENTREGA, ESTADO, DESCRIPCION)
+        messages.success(request, "modificado correctamente")
         
     return render(request, 'editar_pedidos.html', {
         "Listado" : lista,
@@ -643,4 +668,5 @@ def eliminarPedido(request, idPedido):
     data = {
         'ordenes': listado_ordenes()
     }
+    messages.success(request, "eliminado correctamente")
     return render(request, 'listar_ordenes.html', data)

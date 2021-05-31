@@ -154,7 +154,7 @@ begin
             nombre_empresa = v_nombreEmpresa,
             nombre_proveedor = v_nombreProveedor, 
             telefono_proveedor = v_telefonoProveedor
-    where id = id_modificando;
+    where ID_PROVEEDOR = id_modificando;
     commit;
     v_salida:=1;
 
@@ -169,14 +169,14 @@ create or replace procedure SP_TRAER_DATOS_PROVEEDORES (idN number, datos out SY
 begin
     OPEN datos
     for
-    SELECT * FROM core_proveedor where id = idN;
+    SELECT * FROM core_proveedor where ID_PROVEEDOR = idN;
 end;
 
 create or replace procedure SP_ELIMINAR_PROVEEDORES (idProveedor NUMBER, v_salida out number
 )
 IS
 begin
-    DELETE FROM core_proveedor where id = idProveedor;
+    DELETE FROM core_proveedor where ID_PROVEEDOR = idProveedor;
     commit;
     v_salida:=1;
 
