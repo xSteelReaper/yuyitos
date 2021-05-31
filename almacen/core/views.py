@@ -1,7 +1,8 @@
 from django.http import request
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db import connection
 import cx_Oracle
+from django.contrib import messages
 # Create your views here.
 
 
@@ -296,8 +297,7 @@ def listar_cliente_fiado():
 # ------------- Agregar cliente fiado ------------
 def registrarcliente(request):
     data = {
-        'ventas': traeVentasByEmpleado(),
-        # 'registrarcliente' : registrar_fiado()
+        'ventas': traeVentasByEmpleado(),    
     }
     if request.method == 'POST':
         rut_cliente = request.POST.get('rut_cliente')
@@ -309,11 +309,15 @@ def registrarcliente(request):
         id_venta = request.POST.get('venta_id')
         salida = registrar_fiado(rut_cliente, nombre_cliente, direccion_cliente, telefono_cliente,
                                  estado_cliente, monto_total_deuda, id_venta)
-        # if salida == 1:
-        #     data['mensaje'] = 'Agregado Correctamente'
-        #     data['productos'] = registrar_fiado()
-        # else:
-        #     data['mensaje'] = 'No se ha podido guardar'
+        
+        
+        if salida == 1:
+            # data['mensaje'] = 'Agregado Correctamente'
+            messages.success(request, "Agregado correctamente")
+            
+        else:
+            # data['mensaje'] = 'No se ha podido guardar'
+            messages.success(request, "No se pudo agregar")
 
     return render(request, 'registrar_cliente_fiado.html', data)
 
@@ -371,6 +375,8 @@ def modificarCliente(request, id):
         monto_total_deuda = request.POST.get('monto_total_deuda_mod')
         salida = modificar_fiado(id_modificando, rut_cliente, nombre_cliente,
                                  direccion_cliente, telefono_cliente, monto_total_deuda)
+        messages.success(request, "modificado correctamente") 
+     
 
     return render(request, 'editar_cliente_fiado.html', {
         "Listado": lista,
@@ -389,6 +395,7 @@ def modificar_fiado(id_modificando, rut_cliente, nombre_cliente, direccion_clien
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_MODIFICAR_CLIENTE_FIADO', [
                     id_modificando, rut_cliente, nombre_cliente, direccion_cliente, telefono_cliente, monto_total_deuda, salida])
+    
     return salida.getvalue()
 
 
@@ -400,6 +407,9 @@ def eliminarCliente(request, idCliente):
     data = {
         'cliente_fiado': listar_cliente_fiado(),
     }
+    
+    messages.success(request, "eliminado correctamente")
+
     return render(request, 'listar_cliente_fiado.html', data)
 
 
