@@ -261,33 +261,19 @@ def eliminarEmpleado(request, idEmpleado):
     return render(request, 'listar_empleados.html', data)
 
 
-
-
-
-
-#  LO HIZO SALOMOON
-
-
+#  CRUD PROVEEDORES
 def proveedores(request):
-
     data = {
         'proveedores': listado_proveedores()
     }
-
-    # agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
-
     '''if salida == 1:
         data['mensaje'] = 'Agregado Correctamente'
         data['productos'] = listado_proveedores()
     else:
-        data['mensaje'] = 'No se ha podido guardar' 
-    '''
-    #agregar_proveedor('chocolates','Costa','Pedro Martinez','+569 23848294')
+        data['mensaje'] = 'No se ha podido guardar'     '''
     return render(request, 'listar_proveedores.html', data)
 
-
 def agregarproveedores(request):
-
     if request.method == 'POST':
         rubro_empresa = request.POST.get('Rubro Empresa')
         nombre_empresa = request.POST.get('Nombre Empresa')
@@ -308,7 +294,6 @@ def agregarproveedores(request):
 
     return render(request, 'agregar_proveedores.html')
 
-
 def listado_proveedores():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -322,7 +307,6 @@ def listado_proveedores():
 
     return lista
 
-
 def agregar_proveedor(rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -331,6 +315,57 @@ def agregar_proveedor(rubro_empresa, nombre_empresa, nombre_proveedor, telefono_
                     rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor, salida])
     return salida.getvalue()
 
+def modificarProveedores(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_PROVEEDORES", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    
+    id = lista[0][0]
+    rubroEmpresa = lista[0][1]
+    nombreEmpresa = lista[0][2]
+    nombreProveedor = lista[0][3]
+    telefonoProveedor = lista[0][4]
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        RUBRO_EMPRESA = request.POST.get('rubro_empresa_edit')
+        NOMBRE_EMPRESA = request.POST.get('nombre_empresa_edit')
+        NOMBRE_PROVEEDOR = request.POST.get('nombre_proveedor_edit')
+        TELEFONO_PROVEEDOR = request.POST.get('telefono_proveedor_edit')
+        salida = modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR)
+        
+    return render(request, 'editar_proveedores.html', {
+        "Listado" : lista,
+        "id" : id,
+        "rubro empresa" : rubroEmpresa,
+        "nombre empresa" : nombreEmpresa,
+        "nombre proveedor" : nombreProveedor,
+        "telefono proveedor" : telefonoProveedor
+    })
+    
+def modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_PROVEEDORES', [
+                    id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR, salida])
+    return salida.getvalue()
+
+def eliminarProveedores(request, idProveedor):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_PROVEEDORES', [idProveedor,  salida])
+    data = {
+        'proveedores': listado_proveedores()
+    }
+    return render(request, 'listar_proveedores.html', data)
 
 # ----------------------------  felipe listar
 
