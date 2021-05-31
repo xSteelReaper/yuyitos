@@ -25,7 +25,7 @@
                 <ul>
                     <li><a href="#">Inicio</a></li>
                     <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
-                    <li><a href="{% url 'agregar_producto' %}">Stock</a></li>
+                    <li><a href="{% url 'agregar_producto' %}">Productos</a></li>
                     <li><a href="#">Venta</a></li>
                     <li><a href="#">PagarFiado</a></li>
                     <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
@@ -49,25 +49,25 @@
         <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">
         <div class="form-group">
         <label for="rubro_empresa">Rubro Empresa</label>
-        <input class="form-control" type="text" name="rubro_empresa_edit" id="rubro_empresa_edit" value="{{ rubro empresa }}">
+        <input class="form-control" type="text" name="rubro_empresa_edit" id="rubro_empresa_edit" value="{{ rubroEmpresa }}">
         </div>
         <br>
 
         <div class="form-group">
             <label for="nombre_empresa">Nombre Empresa</label>
-            <input class="form-control" type="text" name="nombre_empresa_edit" id="nombre_empresa_edit" value="{{ nombre empresa }}">
+            <input class="form-control" type="text" name="nombre_empresa_edit" id="nombre_empresa_edit" value="{{ nombreEmpresa }}">
         </div>
         <br>
 
         <div class="form-group">
             <label for="nombre_proveedor">Nombre Proveedor</label>
-            <input class="form-control" type="text" name="nombre_proveedor_edit" id="nombre_proveedor_edit" value="{{ nombre proveedor }}">
+            <input class="form-control" type="text" name="nombre_proveedor_edit" id="nombre_proveedor_edit" value="{{ nombreProveedor }}">
         </div>
         <br>
 
         <div class="form-group">
             <label for="telefono_proveedor">Teléfono Proveedor</label>
-            <input class="form-control" type="text" name="telefono_proveedor_edit" id="telefono_proveedor_edit" value="{{ telefono proveedor }}">
+            <input class="form-control" type="text" name="telefono_proveedor_edit" id="telefono_proveedor_edit" value="{{ telefonoProveedor }}">
         </div>
         <br>
         
@@ -77,6 +77,22 @@
         </div>
     </form>
     </div>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %} 
+        {% for m in messages %}
+            <script>
+                Swal.fire({
+                    "title": "Felicitaciones",
+                    "text": "{{m}}",
+                    "icon": "success"
+                })
+            </script>
+        {% endfor %}
+    {% endif %}
+    </div>
+
 </main>
 
 </body>
