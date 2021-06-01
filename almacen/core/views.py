@@ -3,9 +3,15 @@ from django.shortcuts import redirect, render
 from django.db import connection
 import cx_Oracle
 from django.contrib import messages
+# ------------ login y registro ----------
+from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterForm
+from django.contrib.auth import authenticate, login, logout
+# ------- bloquear paginas ------
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(login_url="login")
 def productos(request):
     data = {
         'productos': lista_productos(),
@@ -29,7 +35,7 @@ def lista_productos():
 
 """aqui van los de agregar Productos"""
 
-
+@login_required(login_url="login")
 def agregarProducto(request):
     if request.method == 'POST':
         familia_producto = request.POST.get('familia_producto')
@@ -62,7 +68,7 @@ def add_producto(FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION
                     DESCRIPCION, PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, salida])
     return salida.getvalue()
 
-
+@login_required(login_url="login")
 def modificarProducto(request, id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -126,7 +132,7 @@ def modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_
                               PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, salida])
     return salida.getvalue()
 
-
+@login_required(login_url="login")
 def eliminarProducto(request, idProducto):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -144,7 +150,7 @@ def eliminarProducto(request, idProducto):
 
 # --------- CRUD EMPLEDOS ------------
 
-
+@login_required(login_url="login")
 def empleados(request):
     data = {
         'empleados': listado_empleados()
@@ -165,7 +171,7 @@ def listado_empleados():
 
     return lista
 
-
+@login_required(login_url="login")
 def agregarempleados(request):
 
     if request.method == 'POST':
@@ -199,7 +205,7 @@ def agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO
                                              NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO, salida])
     return salida.getvalue()
 
-
+@login_required(login_url="login")
 def modificarEmpleado(request, id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -258,7 +264,7 @@ def modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_
 
 
 
-
+@login_required(login_url="login")
 def eliminarEmpleado(request, idEmpleado):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -274,6 +280,7 @@ def eliminarEmpleado(request, idEmpleado):
 
 
 #  CRUD PROVEEDORES
+@login_required(login_url="login")
 def proveedores(request):
     data = {
         'proveedores': listado_proveedores()
@@ -285,6 +292,7 @@ def proveedores(request):
         data['mensaje'] = 'No se ha podido guardar'     '''
     return render(request, 'listar_proveedores.html', data)
 
+@login_required(login_url="login")
 def agregarproveedores(request):
     if request.method == 'POST':
         rubro_empresa = request.POST.get('Rubro Empresa')
@@ -313,6 +321,7 @@ def agregarproveedores(request):
 
     return render(request, 'agregar_proveedores.html')
 
+
 def listado_proveedores():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -334,6 +343,7 @@ def agregar_proveedor(rubro_empresa, nombre_empresa, nombre_proveedor, telefono_
                     rubro_empresa, nombre_empresa, nombre_proveedor, telefono_proveedor, salida])
     return salida.getvalue()
 
+@login_required(login_url="login")
 def modificarProveedores(request, id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -377,6 +387,7 @@ def modificar_proveedor(id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PR
                     id_modificando, RUBRO_EMPRESA, NOMBRE_EMPRESA, NOMBRE_PROVEEDOR, TELEFONO_PROVEEDOR, salida])
     return salida.getvalue()
 
+@login_required(login_url="login")
 def eliminarProveedores(request, idProveedor):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -391,7 +402,7 @@ def eliminarProveedores(request, idProveedor):
     return render(request, 'listar_proveedores.html', data)
 
 # ----------------------------  felipe listar
-
+@login_required(login_url="login")
 def cliente_fiado(request):
     data = {
         'cliente_fiado': listar_cliente_fiado(),
@@ -416,6 +427,7 @@ def listar_cliente_fiado():
 
 
 # ------------- Agregar cliente fiado ------------
+@login_required(login_url="login")
 def registrarcliente(request):
     data = {
         'ventas': traeVentasByEmpleado(),    
@@ -468,7 +480,7 @@ def traeVentasByEmpleado():
 
 
 # ------------------ Editar cliente fiado ------------------
-
+@login_required(login_url="login")
 def modificarCliente(request, id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -519,7 +531,7 @@ def modificar_fiado(id_modificando, rut_cliente, nombre_cliente, direccion_clien
     
     return salida.getvalue()
 
-
+@login_required(login_url="login")
 def eliminarCliente(request, idCliente):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -536,7 +548,7 @@ def eliminarCliente(request, idCliente):
 
 # CRUD ORDEN DE PEDIDO
 # Esto lo hizo Daniel
-
+@login_required(login_url="login")
 def ordenes(request):
     data = {
         'ordenes': listado_ordenes()
@@ -557,7 +569,7 @@ def listado_ordenes():
 
     return lista
 
-
+@login_required(login_url="login")
 def agregar_ordenes(request):
 
     data = {
@@ -599,7 +611,7 @@ def agregar_orden(CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO_TOTAL, FECHA_PEDID
     return salida.getvalue()
 
 
-
+@login_required(login_url="login")
 def modificarPedido(request, id):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -655,11 +667,7 @@ def modificar_pedido(id_modificando, CANTIDAD_PRODUCTOS, PRECIO_UNITARIO, PRECIO
                                FECHA_ENTREGA, ESTADO, DESCRIPCION, salida])
     return salida.getvalue()
 
-
-
-
-
-
+@login_required(login_url="login")
 def eliminarPedido(request, idPedido):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -670,3 +678,46 @@ def eliminarPedido(request, idPedido):
     }
     messages.success(request, "eliminado correctamente")
     return render(request, 'listar_ordenes.html', data)
+
+# ------------------ registro login ---------------
+
+def pagina_registro(request):
+    
+    register_form =RegisterForm()
+    
+    if request.method == 'POST':
+        register_form = RegisterForm(request.POST)
+        
+        if register_form.is_valid():
+            register_form.save()
+            messages.success(request, 'Te has registrado correctamente')
+            
+            return redirect('registrar_cliente')
+    
+    return render(request, 'registro.html', {
+        'register_form': register_form
+    })
+        
+def pagina_login(request):
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return redirect('inicio')
+        else:
+            messages.warning(request, 'No estas registrado')
+    
+    return render(request, 'login.html')
+
+def inicio(request):
+    
+    return render (request, 'inicio.html')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

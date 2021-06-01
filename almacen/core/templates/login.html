@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+
+</head>
+
+<body>
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a href="#" class="logo">YUYITOS</a>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                    {% if user.username %}
+                        <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
+                        <li><a href="{% url 'agregar_producto' %}">Productos</a></li>
+                        <li><a href="#">Venta</a></li>
+                        <li><a href="#">PagarFiado</a></li>
+                        <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
+                        <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                        <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
+                        <li><a href="#">Perfil</a></li>
+                        <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                    {% else %}    
+                        <li><a href="{% url 'registro' %}">Registro</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h1>Identifícate</h1>
+    {{register_form.errors}}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <label for="username">Nombre de usuerio:</label>
+        <br>
+        <input type="text" name="username" />
+        <br>
+        <label for="password">Contraseña:</label>
+        <br>
+        <input type="password" name="password" />
+        <br>
+        <input type="submit" value="Login" />
+    </form>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>
