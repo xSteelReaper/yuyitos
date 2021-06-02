@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
     <title>Inicio</title>
 </head>
 <body>
     
     <header class="header">
         <div class="container logo-nav-container">
-            <a href="{% url 'inicio' %}" class="logo">YUYITOS</a>
+            <a href="#" class="logo">YUYITOS</a>
             <nav class="navigation">
                 <ul>
                     <li><a href="{% url 'inicio' %}">Inicio</a></li>
@@ -23,16 +32,22 @@
                         <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
                         <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
                         <li><a href="#">Perfil</a></li>
+                        <li><a href="{% url 'registro' %}">Registro</a></li>
                         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                     {% else %}    
-                        <li><a href="{% url 'registro' %}">Registro</a></li>
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
+
                 </ul>
             </nav>
         </div>
     </header>
-    <h1>Inicio</h1>
+
+<main class="main">
+    <h2>Inicio</h2>
     <h2>Bienvenido {{request.user.username}}</h2>
+
+</main>
+
 </body>
 </html>
