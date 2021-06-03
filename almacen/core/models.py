@@ -8,8 +8,6 @@ class Empleado (models.Model):
     nombre_empleado = models.CharField(max_length=100)
     direccion_empleado = models.CharField(max_length=200)
     telefono_empleado = models.CharField(max_length=20)
-    nombre_usuario = models.CharField(max_length=50)
-    contraseña_empleado = models.CharField(max_length=50)
     cargo_empleado = models.CharField(max_length=100)
 
     def __str__(self):

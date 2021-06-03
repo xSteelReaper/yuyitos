@@ -179,11 +179,9 @@ def agregarempleados(request):
         NOMBRE_EMPLEADO = request.POST.get('nombre_empleado')
         DIRECCION_EMPLEADO = request.POST.get('direccion_empleado')
         TELEFONO_EMPLEADO = request.POST.get('telefono_empleado')
-        NOMBRE_USUARIO = request.POST.get('nombre_usuario')
-        CONTRASEÑA_EMPLEADO = request.POST.get('contraseña_empleado')
         CARGO_EMPLEADO = request.POST.get('cargo_empleado')
         salida = agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
-                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+                                  CARGO_EMPLEADO)
         
         if salida == 1:
             # data['mensaje'] = 'Agregado Correctamente'
@@ -197,12 +195,12 @@ def agregarempleados(request):
 
 
 def agregar_empleado(RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
-                     NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO):
+                      CARGO_EMPLEADO):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_EMPLEADOS', [RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
-                                             NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO, salida])
+                                             CARGO_EMPLEADO, salida])
     return salida.getvalue()
 
 @login_required(login_url="login")
@@ -222,9 +220,7 @@ def modificarEmpleado(request, id):
     nombre = lista[0][2]
     direccion = lista[0][3]
     telefono = lista[0][4]
-    usuario = lista[0][5]
-    contraseña = lista[0][6]
-    cargo = lista[0][7]
+    cargo = lista[0][5]
     
     if request.method == 'POST':
         id_modificando = request.POST.get('id_editando')
@@ -232,11 +228,9 @@ def modificarEmpleado(request, id):
         NOMBRE_EMPLEADO = request.POST.get('nombre_empleado_edit')
         DIRECCION_EMPLEADO = request.POST.get('direccion_empleado_edit')
         TELEFONO_EMPLEADO = request.POST.get('telefono_empleado_edit')
-        NOMBRE_USUARIO = request.POST.get('nombre_usuario_edit')
-        CONTRASEÑA_EMPLEADO = request.POST.get('contraseña_empleado_edit')
         CARGO_EMPLEADO = request.POST.get('cargo_empleado_edit')
         salida = modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
-                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO)
+                                  CARGO_EMPLEADO)
         messages.success(request, "modificado correctamente")
         
     return render(request, 'editar_empleados.html', {
@@ -246,19 +240,17 @@ def modificarEmpleado(request, id):
         "nombre" : nombre,
         "direccion" : direccion,
         "telefono" : telefono,
-        "usuario" : usuario,
-        "contraseña" : contraseña,
         "cargo" : cargo,
     })
     
 def modificar_empleado(id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
-                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO):
+                                  CARGO_EMPLEADO):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_MODIFICAR_EMPLEADO', [
                     id_modificando, RUT_EMPLEADO, NOMBRE_EMPLEADO, DIRECCION_EMPLEADO, TELEFONO_EMPLEADO,
-                                  NOMBRE_USUARIO, CONTRASEÑA_EMPLEADO, CARGO_EMPLEADO, salida])
+                                  CARGO_EMPLEADO, salida])
     return salida.getvalue()
 
 
