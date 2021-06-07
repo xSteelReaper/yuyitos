@@ -74,11 +74,12 @@ class Recepcion_Pedido (models.Model):
     id_recepcion_pedido = models.AutoField(primary_key=True)
     cantidad_productos = models.IntegerField()
     total_pedido = models.IntegerField()
+    descripcion = models.CharField(max_length=200, default = 'Descripcion')
     recepcion_id_orden_pedido = models.ForeignKey(
         Orden_Pedido, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre
+        return self.descripcion
 
 
 class Cliente_Fiado (models.Model):
