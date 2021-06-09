@@ -13,18 +13,29 @@ class Empleado (models.Model):
     def __str__(self):
         return self.nombre_empleado
 
+class Producto (models.Model):
+    id_producto = models.AutoField(primary_key=True)
+    familia_producto = models.CharField(max_length=50)
+    fecha_vencimiento = models.DateField()
+    tipo_producto = models.CharField(max_length=50, default='')
+    descripcion = models.CharField(max_length=100, default='Descripcion')
+    precio = models.IntegerField('Precio', default=1)
+    nombre_producto = models.CharField(max_length=50, default='')
+    marca_producto = models.CharField(max_length=50)
+    stock = models.IntegerField('Stock', default=1)
+    stock_critico = models.IntegerField('Critical stock', default=1)
 
+    def __str__(self):
+        return self.nombre_producto
+    
 class Boleta (models.Model):
     id_boleta = models.AutoField(primary_key=True)
     fecha_venta = models.DateField()
-    producto_id_producto = models.ForeignKey(
-        Producto, on_delete=models.CASCADE)
     cantidad_productos = models.IntegerField()
     monto_neto = models.IntegerField()
     monto_total = models.IntegerField()
     descripcion = models.CharField(max_length=100, default='Descripcion')
-    empleado_rut_empleado = models.ForeignKey(
-        Empleado, on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return self.descripcion
@@ -34,8 +45,6 @@ class Venta (models.Model):
     id_venta = models.AutoField(primary_key=True)
     total_ventas = models.IntegerField()
     descripcion = models.CharField(max_length=100, default='Descripcion')
-    boleta_id_boleta = models.ForeignKey(
-        Boleta, on_delete=models.CASCADE)
 
     def __int__(self):
         return self.descripcion
@@ -124,19 +133,6 @@ class Comprobante_Fiado (models.Model):
         return self.nombre
 
 
-class Producto (models.Model):
-    id_producto = models.AutoField(primary_key=True)
-    familia_producto = models.CharField(max_length=50)
-    fecha_vencimiento = models.DateField()
-    tipo_producto = models.CharField(max_length=50, default='')
-    descripcion = models.CharField(max_length=100, default='Descripcion')
-    precio = models.IntegerField('Precio', default=1)
-    nombre_producto = models.CharField(max_length=50, default='')
-    marca_producto = models.CharField(max_length=50)
-    stock = models.IntegerField('Stock', default=1)
-    stock_critico = models.IntegerField('Critical stock', default=1)
 
-    def __str__(self):
-        return self.nombre_producto
 
 
