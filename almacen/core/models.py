@@ -14,14 +14,31 @@ class Empleado (models.Model):
         return self.nombre_empleado
 
 
-class Venta (models.Model):
-    id_venta = models.AutoField(primary_key=True)
-    total_ventas = models.IntegerField()
+class Boleta (models.Model):
+    id_boleta = models.AutoField(primary_key=True)
+    fecha_venta = models.DateField()
+    producto_id_producto = models.ForeignKey(
+        Producto, on_delete=models.CASCADE)
+    cantidad_productos = models.IntegerField()
+    monto_neto = models.IntegerField()
+    monto_total = models.IntegerField()
+    descripcion = models.CharField(max_length=100, default='Descripcion')
     empleado_rut_empleado = models.ForeignKey(
         Empleado, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.descripcion
+
+
+class Venta (models.Model):
+    id_venta = models.AutoField(primary_key=True)
+    total_ventas = models.IntegerField()
+    descripcion = models.CharField(max_length=100, default='Descripcion')
+    boleta_id_boleta = models.ForeignKey(
+        Boleta, on_delete=models.CASCADE)
+
     def __int__(self):
-        return self.id_venta
+        return self.descripcion
 
 
 class Venta_Fiado (models.Model):
@@ -123,13 +140,3 @@ class Producto (models.Model):
         return self.nombre_producto
 
 
-class Boleta (models.Model):
-    id_boleta = models.AutoField(primary_key=True)
-    fecha_venta = models.DateField()
-    cantidad_productos = models.IntegerField()
-    monto_neto = models.IntegerField()
-    monto_total = models.IntegerField()
-    venta_id_venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.nombre
