@@ -382,15 +382,15 @@ BEGIN
 END;
 
 create or replace procedure SP_MODIFICAR_CLIENTE_FIADO
-(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2,
+(id_modificando number, v_rut_cliente varchar2,v_nombre_cliente varchar2, v_correo varchar2,
 v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_monto_total_deuda NUMBER, v_salida out number
 )is
 begin
     UPDATE core_cliente_fiado set rut_cliente = v_rut_cliente,
      nombre_cliente = v_nombre_cliente,
+     correo = v_correo,
      direccion_cliente = v_direccion_cliente, 
-     telefono_cliente = v_telefono_cliente,
-     monto_total_deuda = v_monto_total_deuda
+     telefono_cliente = v_telefono_cliente
     where id = id_modificando;
     commit;
     v_salida:=1;
@@ -402,14 +402,14 @@ v_salida:=0;
 
 end;
 
-create or replace procedure sp_registrar_cliente_fiado (v_rut_cliente varchar2,v_nombre_cliente varchar2,
-v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_estado_cliente NUMBER,v_monto_total_deuda NUMBER,id_venta NUMBER, v_salida out number
+create or replace procedure sp_registrar_cliente_fiado (v_rut_cliente varchar2,v_nombre_cliente varchar2, v_correo varchar2,
+v_direccion_cliente varchar2,v_telefono_cliente varchar2,v_estado_cliente NUMBER, v_salida out number
 )is
 begin
     insert into core_cliente_fiado
-        (rut_cliente, nombre_cliente,direccion_cliente,telefono_cliente,
-        estado_cliente,monto_total_deuda, id_venta_fiado_id)
-    values(v_rut_cliente, v_nombre_cliente, v_direccion_cliente, v_telefono_cliente, v_estado_cliente, v_monto_total_deuda, id_venta);
+        (rut_cliente, nombre_cliente,correo, direccion_cliente,telefono_cliente,
+        estado_cliente)
+    values(v_rut_cliente, v_nombre_cliente, v_correo, v_direccion_cliente, v_telefono_cliente, v_estado_cliente);
     commit;
     v_salida:=1;
 
