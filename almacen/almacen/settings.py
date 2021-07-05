@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    # 'carro',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #'context_processor.importe_total_carro',
             ],
         },
     },
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'almacen.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1522/xe',
+        'NAME': '127.0.0.1:1521/xe',
         'USER': 'c##portafolio',
         'PASSWORD': 'yuyos123',
         'TEST': {

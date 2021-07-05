@@ -22,6 +22,8 @@ class Producto (models.Model):
     marca_producto = models.CharField(max_length=50)
     stock = models.IntegerField('Stock', default=1)
     stock_critico = models.IntegerField('Critical stock', default=1)
+    vigente = models.BooleanField(default=True)
+    
 
     def __str__(self):
         return self.nombre_producto
