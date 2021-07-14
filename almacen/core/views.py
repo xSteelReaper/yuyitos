@@ -859,3 +859,24 @@ def RetornarVenta():
 
     django_cursor.close()
     return ultimo
+
+
+# ---------- boleta -------
+
+def boleta(request):
+    return render(request,'boleta.html')
+
+def mostrarBoleta(request, venta_id):
+    django_cursor = connection.cursor()
+    query = ("""SELECT * FROM core_venta WHERE ID_VENTA = '%s'""" % (venta_id))
+    django_cursor.execute(query)
+    myresult = django_cursor.fetchall()
+    
+    query2 = ("""SELECT d.cantidad, p.nombre_producto, d.monto FROM core_venta_detalle d INNER JOIN core_producto p ON d.id_producto_id = p.id_producto WHERE d.ID_VENTA_ID = '%s'""" % (venta_id))
+    django_cursor.execute(query2)
+    myresult2 = django_cursor.fetchall()
+
+    return render(request,'boleta.html', {
+        "venta" : myresult,
+        "detalles" : myresult2
+    })

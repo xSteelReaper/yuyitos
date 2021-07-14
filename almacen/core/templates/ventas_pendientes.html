@@ -79,8 +79,8 @@
                     {% if p.5 == 0 %}
                         <button class="btn btn-warning" type="button">Ver</button>
                     {% else %}
-                    <button class="btn btn-warning" type="button" id="btn_ve">Ver</button>
-                    <button class="btn btn-success" type="button" id="btn_ter">Terminar</button>
+                    <a class="btn btn-warning" type="button" id="btn_ve" href="{% url 'mostrarBoleta' venta_id=p.0 %}">Boleta</a>
+                    <a class="btn btn-success" type="button" id="btn_ter" href="{% url 'registrar_cliente' %}">Fiado</a>
                     {% endif %}
                 </td>
             </tr>

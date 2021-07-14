@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'css/boleta.css' %}">
+    <!-- Fonts -->
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet"> -->
+    <title>Boleta</title>
+
+
+</head>
+
+<body>
+<h1>YUYITOS S.A.</h1>
+<h1>12.234.567-9</h1>
+<h1>CHILE</h1>
+    {% for ve in venta %}
+    <p>
+        <b>FACTURA:</b>{{ ve.0 }}<br>
+        <b>FECHA DE VENTA:{{ve.3}}</b><br>
+        <b>EMPLEADO:{{ ve.1 }}</b><br>
+    </p>
+    {% endfor %}
+
+    <table border="1">
+
+        <thead>
+
+            <tr>
+                <th>CANT</th>
+                <th>PRODUCTOS</th>
+                <th>MONTO</th>
+            </tr>
+
+        </thead>
+        <tbody >
+            {% for v in detalles %}
+            <tr>
+
+                <td>{{ v.0 }}</td>
+                <td>{{ v.1 }}</td>
+                <td>{{ v.2 }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% for ve in venta %}
+    <p>
+        <b>TOTAL VENTA:</b>{{ ve.2 }}<br>
+    </p>
+    {% endfor %}
+
+</body>
+
+</html>

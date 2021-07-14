@@ -35,4 +35,5 @@ urlpatterns = [
     path('limpiar/', views.limpiar_producto, name="limpiar"),
     path('ventas/', ventas_pendientes, name="ventas"),
     path('generar/', generar, name="generar"),
+    path('boleta/<int:venta_id>', mostrarBoleta, name="mostrarBoleta"),
 ]
