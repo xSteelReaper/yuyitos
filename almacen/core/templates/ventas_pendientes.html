@@ -28,12 +28,12 @@
                         <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
                         <li><a href="{% url 'agregar_producto' %}">Productos</a></li>
                         <li><a href="{% url 'ventas_index' %}">Almacen</a></li>
-                        <li><a href="#">PagarFiado</a></li>
+                        
                         <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
                         <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
                         <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
-                        <li><a href="#">Perfil</a></li>
-                        <li><a href="#">Ventas Pendientes</a></li>
+                        
+                        <li><a href="{% url 'ventas' %}">Ventas Pendientes</a></li>
                         <li><a href="{% url 'registro' %}">Registro</a></li>
                         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                     {% else %}    
@@ -54,8 +54,7 @@
                     <th>Cantidad Prod.</th>
                     <th>Monto total</th>
                     <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Tipo Venta</th>
+                    
                     <th></th>
                 </tr>
             </thead>
@@ -67,20 +66,13 @@
                 <td>{{ p.2 }}</td>
                 <td>{{ p.3 }}</td>
                 <td>{{ p.4 }}</td>
-                <td>
-                    {% if p.5 == 1 %}
-                        Pendiente
-                    {% else %}
-                        Finalizada
-                    {% endif %}
-                </td>
-                <td>{{ p.6 }}</td>
+                
                 <td>
                     {% if p.5 == 0 %}
                         <button class="btn btn-warning" type="button">Ver</button>
                     {% else %}
-                    <button class="btn btn-warning" type="button" id="btn_ve">Ver</button>
-                    <button class="btn btn-success" type="button" id="btn_ter">Terminar</button>
+                    <a class="btn btn-warning" type="button" id="btn_ve" href="{% url 'mostrarBoleta' venta_id=p.0 %}">Boleta</a>
+                    <a class="btn btn-success" type="button" id="btn_ter" href="{% url 'registrar_cliente' %}">Fiado</a>
                     {% endif %}
                 </td>
             </tr>

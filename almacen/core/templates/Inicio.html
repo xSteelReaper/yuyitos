@@ -26,12 +26,13 @@
                     {% if user.username %}
                         <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
                         <li><a href="{% url 'agregar_producto' %}">Productos</a></li>
-                        <li><a href="ventas_index">Venta</a></li>
-                        <li><a href="#">PagarFiado</a></li>
+                        <li><a href="{% url 'ventas_index' %}">Almacen</a></li>
+                        
                         <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
                         <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
                         <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
-                        <li><a href="#">Perfil</a></li>
+                        
+                        <li><a href="{% url 'ventas' %}">Ventas Pendientes</a></li>
                         <li><a href="{% url 'registro' %}">Registro</a></li>
                         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                     {% else %}    
