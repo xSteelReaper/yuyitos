@@ -1,18 +1,19 @@
-{% load static  %}
+{% load static %}
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    
+
     <title>Listar Productos</title>
 </head>
 
 
 <body>
-<header class="header">
+    <header class="header">
         <div class="container logo-nav-container">
             <a href="#" class="logo">YUYITOS</a>
             <nav class="navigation">
@@ -21,12 +22,14 @@
                     {% if user.username %}
                         <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
                         <li><a href="{% url 'agregar_producto' %}">Productos</a></li>
-                        <li><a href="#">Venta</a></li>
-                        <li><a href="#">PagarFiado</a></li>
+                        <li><a href="{% url 'ventas_index' %}">Almacen</a></li>
+                        
                         <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
                         <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                        <li><a href="{% url 'agregarRecepcionPedido' %}">RecepcionPedido</a></li>
                         <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
-                        <li><a href="#">Perfil</a></li>
+                        
+                        <li><a href="{% url 'ventas' %}">Ventas Pendientes</a></li>
                         <li><a href="{% url 'registro' %}">Registro</a></li>
                         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                     {% else %}    
@@ -38,64 +41,72 @@
         </div>
     </header>
 
-<main class="main">
+    <main class="main">
 
-<h2>Listado de Productos</h2>
-<table class="table">
-<thead class="thead-dark">
-        <tr>
-            <th>Id producto</th>
-            <th>Grupo Producto</th>
-            <th>Vencimiento</th>
-            <th>Tipo producto</th>
-            <th>Descripcion</th>
-            <th>Precio</th>
-            <th>Nombre Producto</th>
-            <th>Marca producto</th>
-            <th>Cantidad</th>
-            <th>Stock critico</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-        {% for p in productos %}
-            
+        <h2>Listado de Productos</h2>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id producto</th>
+                    <th>Grupo Producto</th>
+                    <th>Vencimiento</th>
+                    <th>Tipo producto</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Nombre Producto</th>
+                    <th>Marca producto</th>
+                    <th>Cantidad</th>
+                    <th>Stock critico</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            {% for p in productos %}
+
             <tr>
-            <td>{{ p.0 }}</td>
-            <td>{{ p.1 }}</td>
-            <td>{{ p.2 }}</td>
-            <td>{{ p.3 }}</td>
-            <td>{{ p.4 }}</td>
-            <td>{{ p.5 }}</td>
-            <td>{{ p.6 }}</td>
-            <td>{{ p.7 }}</td>
-            <td>{{ p.8 }}</td>
-            <td>{{ p.9 }}</td>
-            <td>
-                    <a type="button" href="{% url 'editar_producto' id=p.0 %}" class="btn btn-warning"><i class="fa fa-pencil"> Editar</i></a>
-                    <a type="button" href="#" onclick="eliminarProducto('{{p.0}}')" class="btn btn-danger"><i class="fa fa-trash"> Eliminar</i></a>
-                </td>  
-            </tr>            
-            
-        {% endfor %}
-</table>
-    {% block js %}
+                <td>{{ p.data.0 }}</td>
+                <td>{{ p.data.1 }}</td>
+                <td>{{ p.data.2 }}</td>
+                <td>{{ p.data.3 }}</td>
+                <td>{{ p.data.4 }}</td>
+                <td>{{ p.data.5 }}</td>
+                <td>{{ p.data.6 }}</td>
+                <td>{{ p.data.7 }}</td>
+                <td>{{ p.data.8 }}</td>
+                <td>{{ p.data.9 }}</td>
+                <td>
+                    {% if p.imagen %}
+                    <img src="data:imagen/png;base64, {{p.imagen}}" alt="" width="100" height="100">
+                    {% endif %}
+                </td>
+                <td>
+                    <a type="button" href="{% url 'editar_producto' id=p.data.0 %}" class="btn btn-warning"><i
+                            class="fa fa-pencil"> Editar</i></a>
+                    <a type="button" href="#" onclick="eliminarProducto('{{p.data.0}}')" class="btn btn-danger"><i
+                            class="fa fa-trash"> Eliminar</i></a>
+                </td>
+            </tr>
+
+            {% endfor %}
+        </table>
+        {% block js %}
         <script>
             function eliminarProducto(id) {
                 var url = "/eliminarProducto/" + id;
                 console.log(url);
                 Swal.fire({
-                        title: 'Eliminar',
-                        text: "¿Esta Seguro de eliminar el registro?",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Eliminar',
-                        cancelButtonText: "Cancelar"
+                    title: 'Eliminar',
+                    text: "¿Esta Seguro de eliminar el registro?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: "Cancelar"
                 }).then((result) => {
-                        if (result.value) {
-                            document.location.href = url;
-                        }
+                    if (result.value) {
+                        document.location.href = url; 
+                    }
                 });
             }
         </script>
@@ -115,10 +126,12 @@
                 "icon": "success"
             })
         </script>
+
         {% endfor %}
         {% endif %}
 
-</main>
+    </main>
 
 </body>
+
 </html>

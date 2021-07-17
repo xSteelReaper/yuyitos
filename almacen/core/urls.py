@@ -1,5 +1,7 @@
+import io
 from django.urls import path
 from .views import *
+from .import views
 
 urlpatterns = [
     path('productos',productos, name ='productos'),
@@ -30,5 +32,12 @@ urlpatterns = [
     path('modificarRecepcion/<int:id>', modificarRecepcion, name='modificar_recepcion' ),
     path('agregarRecepcion', agregarRecepcionPedido, name="agregarRecepcionPedido"),
     path('eliminarRecepcionPedido/<int:idRPedido>', eliminarRecepcionPedido, name='eliminar_recepcion' ),
+    path('ventas_index', Ventas, name="ventas_index"),
+    path('agregar/<int:id_producto>/', views.agregar_carro, name="agregar"),
+    path('eliminar/<int:producto_id>/', views.eliminar_producto, name="eliminar"),
+    path('restar/<int:producto_id>/', views.restar_producto, name="restar"),
+    path('limpiar/', views.limpiar_producto, name="limpiar"),
+    path('ventas/', ventas_pendientes, name="ventas"),
+    path('generar/', generar, name="generar"),
+    path('boleta/<int:venta_id>', mostrarBoleta, name="mostrarBoleta"),
 ]
-

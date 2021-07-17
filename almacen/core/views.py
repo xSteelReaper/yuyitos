@@ -9,12 +9,18 @@ from .forms import RegisterForm
 from django.contrib.auth import authenticate, login, logout
 # ------- bloquear paginas ------
 from django.contrib.auth.decorators import login_required
+# ----------- imagen -------
+import base64
+from .carro import Carro
+from .models import Producto
+from datetime import date, datetime
 # Create your views here.
 
 @login_required(login_url="login")
 def productos(request):
+        
     data = {
-        'productos': lista_productos(),
+        'productos': lista_productos()
     }
     return render(request, 'listar_productos.html', data)
 
@@ -28,7 +34,12 @@ def lista_productos():
 
     lista = []
     for fila in out_cur:
-        lista.append(fila)
+        data = {
+            'data':fila,
+            'imagen':str(base64.b64encode(fila[10].read()), 'utf-8')
+        }
+        
+        lista.append(data)
 
     return lista
 
@@ -47,8 +58,10 @@ def agregarProducto(request):
         marca_producto = request.POST.get('marca_producto')
         stock = request.POST.get('stock')
         stock_critico = request.POST.get('stock_critico')
+        imagen = request.FILES['imagen'].read()
+        
         salida = add_producto(familia_producto, fecha_vencimiento, tipo_producto, descripcion,
-                              precio, nombre_producto, marca_producto, stock, stock_critico)
+                              precio, nombre_producto, marca_producto, stock, stock_critico, imagen)
         if salida == 1:
             # data['mensaje'] = 'Agregado Correctamente'
             messages.success(request, "Agregado correctamente")
@@ -60,12 +73,12 @@ def agregarProducto(request):
     return render(request, 'agregar_producto.html')
 
 
-def add_producto(FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION, PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO):
+def add_producto(FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO, DESCRIPCION, PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, IMAGEN):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_PRODUCTO', [FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_PRODUCTO,
-                    DESCRIPCION, PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, salida])
+                    DESCRIPCION, PRECIO, NOMBRE_PRODUCTO, MARCA_PRODUCTO, STOCK, STOCK_CRITICO, IMAGEN, salida])
     return salida.getvalue()
 
 @login_required(login_url="login")
@@ -90,6 +103,7 @@ def modificarProducto(request, id):
     marca = lista[0][7]
     stock = lista[0][8]
     critico = lista[0][9]
+    
     
     
     if request.method == 'POST':
@@ -134,6 +148,7 @@ def modificar_producto(id_modificando,FAMILIA_PRODUCTO, FECHA_VENCIMIENTO, TIPO_
 
 @login_required(login_url="login")
 def eliminarProducto(request, idProducto):
+    eliminar_producto(request, idProducto)
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
@@ -141,7 +156,6 @@ def eliminarProducto(request, idProducto):
     data = {
         'productos': lista_productos(),
     }
-    
     messages.success(request, "eliminado correctamente")
     
     return render(request, 'listar_productos.html', data)
@@ -152,6 +166,9 @@ def eliminarProducto(request, idProducto):
 
 @login_required(login_url="login")
 def empleados(request):
+    #en caso de emergencia.
+    # carro = Carro(request)
+    # carro.limpiar_carro()
     data = {
         'empleados': listado_empleados()
     }
@@ -715,6 +732,157 @@ def logout_user(request):
     return redirect('login')
 
 
+# ------------- ventas -----------
+
+def Ventas(request):
+    total = importe_total_carro(request)
+    return render(request, "venta_index.html", {
+        'Productos': lista_productos(),
+        "importe_total_carro":total,
+    })
+    
+def agregar_carro(request, id_producto):
+        
+    carro = Carro(request)
+        
+    producto = Producto.objects.get(id_producto=id_producto)
+        
+    carro.agregar(producto=producto)
+    
+    return redirect("ventas_index")
+
+def eliminar_producto(request, producto_id):
+        
+    carro = Carro(request)
+        
+    producto = Producto.objects.get(id_producto=producto_id)
+        
+    carro.eliminar(producto=producto)
+        
+    return redirect("ventas_index")
+
+def restar_producto(request, producto_id):
+        
+    carro = Carro(request)
+        
+    producto = Producto.objects.get(id_producto=producto_id)
+        
+    carro.restar_producto(producto=producto)
+        
+    return redirect("ventas_index")
+
+def limpiar_producto(request):
+        
+    carro = Carro(request)
+    carro.limpiar_carro()
+        
+    return redirect("ventas_index")
+
+def importe_total_carro(request):
+    total=0
+    
+    for  key, value in request.session["carro"].items():
+        total=total+int(value["precio"])
+            
+    return total
+
+def ventas_pendientes(request):
+    return render(request, "ventas_pendientes.html", {
+        'Ventas': listado_ventas(),
+    }) 
+    
+def listado_ventas():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_VENTAS", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    return lista
+
+def generar(request):
+    carro = Carro(request)
+    carroCompras = carro.retornaCarro()
+
+    #Tabla Venta
+    id_empleado = 63
+    monto = int(importe_total_carro(request))
+    fecha_venta = datetime.now()
+    descripcion = "venta realizada por " + str(monto)
+    vigente = 1
+    id_tipo = 21 #no borras de la base de datos
+    AgregaCabecera(id_empleado, monto, fecha_venta, descripcion, vigente, id_tipo)
+
+    id_venta = int(RetornarVenta())
+
+    listado = []
+    # #Venta detalle
+    for ventas in carroCompras.items():
+        listado.append(ventas[1])
+
+    for lista in listado:
+        cantidad = int(lista["cantidad"])
+        monto = int(lista["precio"])
+        id_producto_id = int(lista["id_producto"]) 
+        id_venta_id = int(id_venta)
+        AgregaDetalle(cantidad,monto, id_producto_id, id_venta_id)
+
+    # #Vacias el carro
+    carro.limpiar_carro()
+    return redirect("ventas")
+
+def AgregaDetalle(cantidad, monto, id_producto_id, id_venta_id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('sp_agregar_detalle', [cantidad, monto, id_producto_id, id_venta_id, salida])
+    return salida.getvalue()
+
+
+def AgregaCabecera(id_empleado, monto, fecha_venta, descripcion, vigente, id_tipo):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('sp_agregar_venta', [id_empleado, monto, fecha_venta, descripcion, vigente, id_tipo, salida])
+    return salida.getvalue()
+    
+def RetornarVenta():
+    django_cursor = connection.cursor()
+    django_cursor.execute("SELECT MAX(ID_VENTA) FROM core_venta")
+    myresult = django_cursor.fetchall()
+    ultimo = 0
+    for row in myresult:
+        ultimo = row[0]
+
+    django_cursor.close()
+    return ultimo
+
+
+# ---------- boleta -------
+
+def boleta(request):
+    return render(request,'boleta.html')
+
+def mostrarBoleta(request, venta_id):
+    django_cursor = connection.cursor()
+    query = ("""SELECT * FROM core_venta WHERE ID_VENTA = '%s'""" % (venta_id))
+    django_cursor.execute(query)
+    myresult = django_cursor.fetchall()
+    
+    query2 = ("""SELECT d.cantidad, p.nombre_producto, d.monto FROM core_venta_detalle d INNER JOIN core_producto p ON d.id_producto_id = p.id_producto WHERE d.ID_VENTA_ID = '%s'""" % (venta_id))
+    django_cursor.execute(query2)
+    myresult2 = django_cursor.fetchall()
+
+    return render(request,'boleta.html', {
+        "venta" : myresult,
+        "detalles" : myresult2
+    })
+    
+    
 #--------------- Recepcion de pedidos ----------------
 
 def recepcion(request):

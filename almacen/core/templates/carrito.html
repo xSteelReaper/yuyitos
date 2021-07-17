@@ -1,0 +1,85 @@
+<table class="table table-bordered" style="color: black;">
+    <thead>
+        <tr>
+            <th colspan="5" class="text-center">
+                Carrito de compras
+                {% if request.session.carro.items %}
+                <a href="{% url 'limpiar' %}" style="background-color: green;color: white;">Limpiar</a>
+                {% endif %}
+            </th>
+        </tr>
+        <tr>
+            <th>Cantidad</th>
+            <th>Producto</th>
+            <th>Total</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if request.session.carro.items %}
+        {% for key, value in request.session.carro.items %}
+        <tr class="text-center">
+            <td>{{value.cantidad}}</td>
+            <td>{{value.nombre_producto}}</td>
+            <td>$ {{value.precio}}</td>
+            <td>
+                <a href="{% url 'agregar' value.id_producto %}" style="background-color: green;color: white;">+</a>
+            </td>
+            <td>
+                <a href="{% url 'restar' value.id_producto %}" style="background-color: red;color: white;">-</a>
+            </td>
+        </tr>
+
+
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="5">
+                <div class="alert alert-danger text-center">
+                    Sin productos
+                </div>
+
+            </td>
+        </tr>
+        {% endif %}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <th colspan="5" class="text-center">
+                Total $ {{importe_total_carro}}
+                <br />
+                {% if request.session.carro.items %}
+                <a onclick="generarVenta();" style="background-color: #3b2a98;color: white;cursor:pointer;">Generar
+                    Venta</a>
+                {% endif %}
+            </th>
+        </tr>
+    </tfoot>
+
+</table>
+
+{% block js %}
+<script>
+    function generarVenta() {
+        var url = "/generar/";
+        Swal.fire({
+            title: 'Generar Venta',
+            text: "¿Quiere generar la venta del carrito?",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Generar',
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.value) {
+                location.href = url;
+
+            }
+        });
+    }
+</script>
+{% endblock %}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -24,12 +24,14 @@
                     {% if user.username %}
                         <li><a href="{% url 'agregar_proveedores' %}">Proveedor</a></li>
                         <li><a href="{% url 'agregar_producto' %}">Productos</a></li>
-                        <li><a href="#">Venta</a></li>
-                        <li><a href="#">PagarFiado</a></li>
+                        <li><a href="{% url 'ventas_index' %}">Almacen</a></li>
+                        
                         <li><a href="{% url 'registrar_cliente' %}">Clientes</a></li>
                         <li><a href="{% url 'agregar_ordenes' %}">Pedidos</a></li>
+                        <li><a href="{% url 'agregarRecepcionPedido' %}">RecepcionPedido</a></li>
                         <li><a href="{% url 'agregar_empleados' %}">Empleado</a></li>
-                        <li><a href="#">Perfil</a></li>
+                        
+                        <li><a href="{% url 'ventas' %}">Ventas Pendientes</a></li>
                         <li><a href="{% url 'registro' %}">Registro</a></li>
                         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                     {% else %}    
@@ -48,7 +50,7 @@
 
 <h2>Agreguemos un nuevo producto</h2>
 <div class="contenedor">
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
     <label for="familia_producto">FAMILIA_PRODUCTO</label>
@@ -102,6 +104,9 @@
     <label for="stock_critico">STOCK_CRITICO</label>
     <input class="form-control" type="number" name="stock_critico" id="stock_critico">
     </div>
+    <br>
+    <label for="">Imagen</label>
+    <input type="file" name="imagen">
     <br>
 
     <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>

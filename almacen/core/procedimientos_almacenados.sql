@@ -426,6 +426,7 @@ begin
     for
     SELECT * FROM core_cliente_fiado where id = idN;
 end;
+<<<<<<< HEAD
 
 
 ----- procedimientos recepcion de pedidos-----
@@ -477,6 +478,49 @@ begin
     insert into core_recepcion_pedido(CANTIDAD_PRODUCTOS,TOTAL_PEDIDO,DESCRIPCION,
     RECEPCION_ID_ORDEN_PEDIDO_ID)
     values(v_cantidad_productos,v_total_pedido,v_descripcion,v_recepcion_id_orden_pedido_id);
+=======
+-- -------------------------------------------------
+-----------------------------------------------------
+------------------------------------------------------
+
+create or replace procedure SP_LISTAR_VENTAS_PRODUCTOS (ventasId number, datos out SYS_REFCURSOR, v_ventasId )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM core_producto where ventasId = v_ventasId;
+end;
+
+
+create or replace procedure SP_LISTAR_VENTAS_PRODUCTOS (ventasId out SYS_REFCURSOR, v_ventasId )
+is
+begin
+     open ventasId for select * from core_producto where ventasId = v_ventasId;
+end;
+
+
+
+create or replace PROCEDURE SP_LISTAR_VENTAS_BY_EMPLEADO (ventas_empleados out SYS_REFCURSOR) IS
+BEGIN
+  OPEN ventas_empleados FOR SELECT * FROM core_venta p JOIN core_empleado e ON e.id = p.empleado_rut_empleado_id;
+END;
+
+
+create or replace PROCEDURE SP_LISTAR_VENTAS_BY_PRODUCTOS (productos out SYS_REFCURSOR) IS
+BEGIN
+  OPEN productos FOR SELECT * FROM core_venta p JOIN core_empleado e ON e.id = p.empleado_rut_empleado_id;
+END;
+
+
+
+create or replace procedure sp_agregar_producto(v_familia_producto varchar2,v_fecha_vencimiento DATE,
+v_tipo_producto varchar2,v_descripcion	varchar2,v_precio NUMBER,v_nombre_producto varchar2,v_marca_producto varchar2,
+v_stock NUMBER,v_stock_critico NUMBER, v_blob blob, v_salida out number
+)is 
+begin
+    insert into core_producto(familia_producto, fecha_vencimiento,tipo_producto,descripcion,
+    precio,nombre_producto,marca_producto,stock,stock_critico, imagen)
+    values(v_familia_producto, v_fecha_vencimiento,v_tipo_producto,v_descripcion,v_precio,v_nombre_producto,v_marca_producto,v_stock,v_stock_critico, v_blob);
+>>>>>>> 0733ad4734da0e2e115a7fcec53dbf527fa0867b
     commit; 
     v_salida:=1;
 
@@ -487,16 +531,64 @@ begin
 
 end;
 
+<<<<<<< HEAD
 create or replace PROCEDURE SP_ELIMINAR_RECEPCION_PEDIDO (idRPedido number, v_salida out number)
 IS
 BEGIN
     DELETE FROM core_recepcion_pedido where ID_RECEPCION_PEDIDO = idRPedido;
     commit;
     v_salida:=1;
+=======
+
+
+
+create or replace procedure SP_LISTAR_VENTAS (ventas out SYS_REFCURSOR)
+is
+begin
+     open ventas for SELECT cv.id_venta, coe.nombre_empleado, cv.monto, cv.fecha_venta, cv.vigente, tv.descripcion FROM core_venta cv
+    INNER JOIN core_tipo_venta tv on tv.id_tipo = cv.id_tipo_id
+    LEFT JOIN core_empleado coe on coe.id = cv.id_empleado;
+end;
+
+
+
+create or replace procedure sp_agregar_venta(v_ID_VENTA number,
+v_ID_EMPLEADO number,
+v_MONTO number,
+v_FECHA_VENTA TIMESTAMP,
+v_DESCRIPCION VARCHAR,
+v_VIGENTE number,
+v_ID_TIPO_ID number,id_salida out number
+)is 
+begin
+    insert into core_venta(ID_VENTA,
+ID_EMPLEADO,
+MONTO,
+FECHA_VENTA,
+DESCRIPCION,
+VIGENTE,
+ID_CLIENTE_ID,
+ID_TIPO_ID)
+    values(v_ID_VENTA ,
+v_ID_EMPLEADO ,
+v_MONTO ,
+v_FECHA_VENTA ,
+v_DESCRIPCION ,
+v_VIGENTE ,
+v_ID_TIPO_ID );
+    commit; 
+    id_salida:=SELECT MAX(id_venta) FROM core_venta;
+>>>>>>> 0733ad4734da0e2e115a7fcec53dbf527fa0867b
 
     exception
 
     when others then
+<<<<<<< HEAD
 v_salida:=0;
 
 END;
+=======
+    id_salida:=0;
+
+end;
+>>>>>>> 0733ad4734da0e2e115a7fcec53dbf527fa0867b
