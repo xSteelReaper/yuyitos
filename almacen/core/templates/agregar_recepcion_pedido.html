@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -13,7 +14,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <title>Inicio</title>
+
+
+    <title>recepcion de Pedido</title>
 </head>
 <body>
     
@@ -44,9 +47,72 @@
         </div>
     </header>
 
+
+
 <main class="main">
-    <h2>Inicio</h2>
-    <h2>Bienvenido {{request.user.username}}</h2>
+   
+    
+    
+    <a href="{% url 'listar_recepcion_pedido' %}" class="btn btn-dark"> Listar Recepcion Pedidos</a>
+    <h2>Recepcion de Pedidos</h2>
+    <div class="contenedor">
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+        <label for="cantidad_productos">Cantidad productos</label>
+        <input class="form-control" type="number" name="cantidad_productos" id="cantidad_productos">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="precio_total">Total pedido</label>
+        <input class="form-control" type="number" name="precio_total" id="precio_total">
+        </div>
+        <br>
+
+
+        <div class="form-group">
+        <label for="descripcion">Descripcion</label>
+        <input class="form-control" type="text" name="descripcion" id="descripcion">
+        </div>
+        <br>
+        
+        
+        
+        <div class="form-group">
+        <label for="pedido">Pedidos</label>
+        <select class="form-control" name="pedido" id="pedido">
+            <option value="">Seleccionar</option>
+            {% for p in pedidos %}
+                <option value="{{ p.0 }}">{{ p.9 }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <br>
+        
+        
+
+
+        <button type="submit" class="btn btn-dark" value="Guardar"> Guardar </button>
+    </form>
+    </div>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %} 
+        {% for m in messages %}
+            <script>
+                Swal.fire({
+                    "title": "Felicitaciones",
+                    "text": "{{m}}",
+                    "icon": "success"
+                })
+            </script>
+        {% endfor %}
+    {% endif %}
 
 </main>
 

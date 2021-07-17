@@ -14,7 +14,7 @@ admin.site.register(Tipo_Comprobante)
 admin.site.register(Comprobante)
 admin.site.register(Venta_Detalle)
 admin.site.register(Tipo_Venta)
-#admin.site.register()
+admin.site.register(Recepcion_Pedido)
 
 
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -13,7 +14,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <title>Inicio</title>
+
+    <title>Editar Recepcion de Pedidos</title>
 </head>
 <body>
     
@@ -44,11 +46,66 @@
         </div>
     </header>
 
-<main class="main">
-    <h2>Inicio</h2>
-    <h2>Bienvenido {{request.user.username}}</h2>
+
+    <main class="main">
+
+    
+    
+        <a href="{% url 'listar_recepcion_pedido' %}" class="btn btn-dark"> Listar Recepcion Pedidos</a>
+        
+        <h2>Editar Recepcion de Pedido</h2>
+        <div class="contenedor">
+        <form method="POST">
+        
+        
+        {% csrf_token %}
+
+        <input type="text" name="id_editando" id="id_editando" hidden value="{{ id }}">
+        <div class="form-group">
+        <label for="cantidad_productos_edit">Cantidad productos</label>
+        <input class="form-control" type="number" name="cantidad_productos_edit" id="cantidad_productos_edit" value="{{ cantidad }}">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="total_pedido_edit">Total pedido</label>
+        <input class="form-control" type="number" name="total_pedido_edit" id="total_pedido_edit" value="{{ total_pedido }}">
+        </div>
+        <br>
+        
+        <div class="form-group">
+        <label for="descripcion_edit">Descripcion</label>
+        <input class="form-control" type="text" name="descripcion_edit" id="descripcion_edit" value="{{ descripcion }}">
+        </div>
+        <br>
+        
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Editar">
+            <a class="btn btn-primary"  href="{% url 'listar_recepcion_pedido' %}" type="button">Volver</a>
+        </div>
+    </form>
+    </div>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %} 
+        {% for m in messages %}
+            <script>
+                Swal.fire({
+                    "title": "Felicitaciones",
+                    "text": "{{m}}",
+                    "icon": "success"
+                })
+            </script>
+        {% endfor %}
+    {% endif %}
+    </div>
 
 </main>
+
+
+
+
 
 </body>
 </html>

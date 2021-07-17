@@ -426,3 +426,77 @@ begin
     for
     SELECT * FROM core_cliente_fiado where id = idN;
 end;
+
+
+----- procedimientos recepcion de pedidos-----
+
+create or replace procedure sp_listar_recepcion_ordenes(recepcion out SYS_REFCURSOR)
+IS
+
+BEGIN
+
+    open recepcion for SELECT * from core_recepcion_pedido;
+
+END;
+
+
+create or replace procedure SP_TRAER_DATOS_RECEPCION (idN number, datos out SYS_REFCURSOR )is
+begin
+    OPEN datos
+    for
+    SELECT * FROM CORE_RECEPCION_PEDIDO where ID_RECEPCION_PEDIDO = idN;
+end;
+
+create or replace procedure SP_MODIFICAR_RECEPCION_PEDIDOS(
+id_modificando number, 
+v_CANTIDAD_PRODUCTOS number,
+v_TOTAL_PEDIDO number,
+v_DESCRIPCION NVARCHAR2,
+v_salida out number
+)is
+begin
+    UPDATE CORE_RECEPCION_PEDIDO set CANTIDAD_PRODUCTOS = v_CANTIDAD_PRODUCTOS,
+    TOTAL_PEDIDO = v_TOTAL_PEDIDO,
+    DESCRIPCION = v_DESCRIPCION  
+
+    where ID_RECEPCION_PEDIDO = id_modificando;
+    commit;
+    v_salida:=1;
+
+exception
+
+    when others then
+v_salida:=0;
+
+end;
+
+create or replace procedure sp_agregar_recepcion_pedido(v_cantidad_productos number,v_total_pedido number,
+v_descripcion varchar2 ,v_recepcion_id_orden_pedido_id number,v_salida out number
+)is 
+begin
+    insert into core_recepcion_pedido(CANTIDAD_PRODUCTOS,TOTAL_PEDIDO,DESCRIPCION,
+    RECEPCION_ID_ORDEN_PEDIDO_ID)
+    values(v_cantidad_productos,v_total_pedido,v_descripcion,v_recepcion_id_orden_pedido_id);
+    commit; 
+    v_salida:=1;
+
+    exception
+
+    when others then
+    v_salida:=0;
+
+end;
+
+create or replace PROCEDURE SP_ELIMINAR_RECEPCION_PEDIDO (idRPedido number, v_salida out number)
+IS
+BEGIN
+    DELETE FROM core_recepcion_pedido where ID_RECEPCION_PEDIDO = idRPedido;
+    commit;
+    v_salida:=1;
+
+    exception
+
+    when others then
+v_salida:=0;
+
+END;

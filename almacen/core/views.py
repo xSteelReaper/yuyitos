@@ -713,3 +713,112 @@ def inicio(request):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+#--------------- Recepcion de pedidos ----------------
+
+def recepcion(request):
+    data = {
+        'recepcion': listado_recepcion_ordenes()
+    }
+    
+    return render(request, 'listar_recepcion_pedido.html', data)
+
+
+def listado_recepcion_ordenes():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_RECEPCION_ORDENES", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    return lista
+
+
+
+def modificarRecepcion(request, id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_TRAER_DATOS_RECEPCION", [id, out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    
+    id = lista[0][0]
+    cantidad = lista[0][1]
+    total_pedido = lista[0][2]
+    descripcion = lista[0][4]
+    
+    
+    if request.method == 'POST':
+        id_modificando = request.POST.get('id_editando')
+        CANTIDAD_PRODUCTOS = request.POST.get('cantidad_productos_edit')
+        TOTAL_PEDIDO = request.POST.get('total_pedido_edit')
+        DESCRIPCION = request.POST.get('descripcion_edit')
+        salida = modificar_recepcion(id_modificando, CANTIDAD_PRODUCTOS,TOTAL_PEDIDO,DESCRIPCION)
+        messages.success(request, "modificado correctamente")
+        
+    return render(request, 'editar_recepcion_pedidos.html', {
+        "Listado" : lista,
+        "id" : id,
+        "cantidad" : cantidad,
+        "total_pedido" : total_pedido,
+        "descripcion" : descripcion,
+    })
+    
+def modificar_recepcion(id_modificando, CANTIDAD_PRODUCTOS,TOTAL_PEDIDO,DESCRIPCION):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_RECEPCION_PEDIDOS', [
+                    id_modificando, CANTIDAD_PRODUCTOS,TOTAL_PEDIDO,DESCRIPCION, salida])
+    return salida.getvalue()
+
+
+def agregarRecepcionPedido(request):
+    data = {
+        'pedidos': listado_ordenes(),
+    }
+    if request.method == 'POST':   
+        CANTIDAD_PRODUCTOS= request.POST.get('cantidad_productos')
+        TOTAL_PEDIDO= request.POST.get('precio_total')
+        DESCRIPCION= request.POST.get('descripcion')
+        RECEPCION_ID_ORDEN_PEDIDO_ID= request.POST.get('pedido')
+        salida = add_recepcionPedi(CANTIDAD_PRODUCTOS ,TOTAL_PEDIDO, 
+                                   DESCRIPCION,RECEPCION_ID_ORDEN_PEDIDO_ID)
+        if salida == 1:
+            # data['mensaje'] = 'Agregado Correctamente'
+            messages.success(request, "Agregado correctamente")
+            
+        else:
+            # data['mensaje'] = 'No se ha podido guardar'
+            messages.success(request, "No se pudo agregar")
+
+    return render(request, 'agregar_recepcion_pedido.html',data)
+
+
+def add_recepcionPedi(CANTIDAD_PRODUCTOS,TOTAL_PEDIDO,DESCRIPCION,RECEPCION_ID_ORDEN_PEDIDO_ID):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_RECEPCION_PEDIDO', [CANTIDAD_PRODUCTOS,
+    TOTAL_PEDIDO,DESCRIPCION,RECEPCION_ID_ORDEN_PEDIDO_ID, salida])
+    return salida.getvalue()
+
+def eliminarRecepcionPedido(request, idRPedido):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_RECEPCION_PEDIDO', [idRPedido,  salida])
+    data = {
+        'pedidos': listado_recepcion_ordenes()
+    }
+    messages.success(request, "eliminado correctamente")
+    return render(request, 'listar_recepcion_pedido.html', data)

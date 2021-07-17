@@ -26,5 +26,9 @@ urlpatterns = [
     path('login', pagina_login, name='login'),
     path('', inicio, name='inicio'),
     path('logout', logout_user, name="logout"),
+    path('listarRecepcion', recepcion, name='listar_recepcion_pedido'),
+    path('modificarRecepcion/<int:id>', modificarRecepcion, name='modificar_recepcion' ),
+    path('agregarRecepcion', agregarRecepcionPedido, name="agregarRecepcionPedido"),
+    path('eliminarRecepcionPedido/<int:idRPedido>', eliminarRecepcionPedido, name='eliminar_recepcion' ),
 ]
 
